@@ -6,7 +6,7 @@ import SEO from '../components/seo';
 
 const IndexPage: React.FC = () => (
   <Layout>
-    <SEO title="Home" />
+    <SEO title="Game Central Home" />
     <h1>Hi people</h1>
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />

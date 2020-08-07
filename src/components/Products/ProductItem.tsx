@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { ProductEdge } from './index';
 import PropTypes from 'prop-types';
-// import { useStripe } from '@stripe/react-stripe-js';
 import { FluidObject } from 'gatsby-image';
 import Img from 'gatsby-image';
+import { useShoppingCart } from 'use-shopping-cart';
 
 const Container = styled.div`
   display: flex;
@@ -63,7 +63,8 @@ const ProductItem: React.FC<ProductItemProps> = ({
   productEdge,
   fluidImage,
 }) => {
-  //   const stripe = useStripe();
+  const cart = useShoppingCart();
+
   return (
     <Container>
       <TitleHeader>{productEdge.node.product.name}</TitleHeader>
