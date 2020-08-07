@@ -3,6 +3,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import styled from 'styled-components';
 import ProductItem from './ProductItem';
 import { FluidObject } from 'gatsby-image';
+import { Product } from 'use-shopping-cart';
 
 const Container = styled.div`
   display: flex;
@@ -12,16 +13,15 @@ const Container = styled.div`
   padding: 1rem 0 1rem 0;
 `;
 
-export interface ProductEdge {
-  node: {
-    product: {
-      name: string;
-      description: string;
-      id: string;
-    };
-    unit_amount: number;
-    currency: string;
+interface ProductNode {
+  product: {
+    name: string;
+    description: string;
+    id: string;
+    images: string[];
   };
+  unit_amount: number;
+  currency: string;
 }
 
 interface imageLocalFile {
@@ -33,25 +33,24 @@ interface imageLocalFile {
   };
 }
 
-export interface ImageNode {
+interface ImageNode {
   localFiles: imageLocalFile[];
 }
 
-const Products: React.FC = () => {
+const ProductContainer: React.FC = () => {
   const { products, images } = useStaticQuery(
     graphql`
       query ProductInfo {
         products: allStripePrice {
-          edges {
-            node {
-              product {
-                name
-                description
-                id
-              }
-              unit_amount
-              currency
+          nodes {
+            product {
+              name
+              description
+              id
+              images
             }
+            unit_amount
+            currency
           }
         }
         images: allStripeProduct {
@@ -73,15 +72,24 @@ const Products: React.FC = () => {
   );
 
   const imageNodes = images.nodes as ImageNode[];
-  const productEdges = products.edges as ProductEdge[];
+  const productNodes = products.nodes as ProductNode[];
 
   return (
     <Container>
-      {productEdges.map((productEdge, index) => {
+      {productNodes.map((productNode, index) => {
+        const newProduct: Product = {
+          name: productNode.product.name,
+          sku: productNode.product.id,
+          price: productNode.unit_amount,
+          currency: productNode.currency,
+          description: productNode.product.description,
+          image: productNode.product.images[0],
+        };
+
         return (
           <ProductItem
             key={index}
-            productEdge={productEdge}
+            product={newProduct}
             fluidImage={imageNodes[index].localFiles[0].childImageSharp.fluid}
           />
         );
@@ -90,4 +98,4 @@ const Products: React.FC = () => {
   );
 };
 
-export default Products;
+export default ProductContainer;

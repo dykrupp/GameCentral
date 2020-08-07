@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ProductEdge } from './index';
 import PropTypes from 'prop-types';
 import { FluidObject } from 'gatsby-image';
 import Img from 'gatsby-image';
-import { useShoppingCart } from 'use-shopping-cart';
+import {
+  useShoppingCart,
+  Product,
+  formatCurrencyString,
+} from 'use-shopping-cart';
 
 const Container = styled.div`
   display: flex;
@@ -45,42 +48,33 @@ const BuyButton = styled.button`
 `;
 
 interface ProductItemProps {
-  productEdge: ProductEdge;
+  product: Product;
   fluidImage: FluidObject;
 }
 
-const formatPrice = (amount: number, currency: string) => {
-  const price = parseFloat((amount / 100).toFixed(2));
-  const numberFormat = new Intl.NumberFormat(['en-US'], {
-    style: 'currency',
-    currency: currency,
-    currencyDisplay: 'symbol',
-  });
-  return numberFormat.format(price);
-};
-
-const ProductItem: React.FC<ProductItemProps> = ({
-  productEdge,
-  fluidImage,
-}) => {
+const ProductItem: React.FC<ProductItemProps> = ({ product, fluidImage }) => {
   const cart = useShoppingCart();
 
   return (
     <Container>
-      <TitleHeader>{productEdge.node.product.name}</TitleHeader>
+      <TitleHeader>{product.name}</TitleHeader>
       <Img style={{ width: '150px', margin: '0 auto' }} fluid={fluidImage} />
       <ProductInfo style={{ marginTop: '5px' }}>
         Price:{' '}
-        {formatPrice(productEdge.node.unit_amount, productEdge.node.currency)}
+        {formatCurrencyString({
+          value: product.price,
+          currency: product.currency,
+          language: navigator.language,
+        })}
       </ProductInfo>
-      <ProductInfo>{productEdge.node.product.description}</ProductInfo>
-      <BuyButton onClick={() => console.log('click clack BOOM')}>Buy</BuyButton>
+      <ProductInfo>{product.description}</ProductInfo>
+      <BuyButton onClick={() => cart.addItem(product)}>ADD TO CART</BuyButton>
     </Container>
   );
 };
 
 ProductItem.propTypes = {
-  productEdge: PropTypes.any.isRequired,
+  product: PropTypes.any.isRequired,
   fluidImage: PropTypes.any.isRequired,
 };
 
