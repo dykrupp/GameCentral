@@ -1,12 +1,20 @@
 import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { CartProvider } from 'use-shopping-cart'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const stripePromise = loadStripe(
     process.env.GATSBY_STRIPE_PUBLISHABLE_KEY
       ? process.env.GATSBY_STRIPE_PUBLISHABLE_KEY
       : ''
 );
+
+const palette = {
+    primary: { main: '#673AB7' },
+    secondary: { main: '#1976D2' }
+  };
+
+const themeName = 'Purple Heart Denim Python';
 
 export const wrapRootElement = ({ element }) => {
     return (
@@ -19,7 +27,9 @@ export const wrapRootElement = ({ element }) => {
             allowedCountries={['US', 'CA']}
             billingAddressCollection={true}
         >
+        <ThemeProvider theme={createMuiTheme({ palette, themeName })}>
         {element}
+        </ThemeProvider>
         </CartProvider>
     );
 }

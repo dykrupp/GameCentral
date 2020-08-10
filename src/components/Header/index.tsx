@@ -3,10 +3,27 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useShoppingCart, formatCurrencyString } from 'use-shopping-cart';
 import styled from 'styled-components';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Badge from '@material-ui/core/Badge';
+import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
+import { CartDrawer } from './CartDrawer';
+import { makeStyles } from '@material-ui/core/styles';
 
 interface HeaderPropTypes {
   siteTitle?: string;
 }
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  toolBar: {
+    justifyContent: 'space-between',
+  },
+}));
 
 const Button = styled.button`
   font-size: 13px;
@@ -29,6 +46,8 @@ const CartInfo = styled.p`
 
 const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const [loading, setLoading] = useState(false);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+  const classes = useStyles();
 
   const {
     totalPrice,
@@ -38,53 +57,54 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   } = useShoppingCart();
 
   return (
-    <header
-      style={{
-        background: `rebeccapurple`,
-        marginBottom: `1.45rem`,
-      }}
-    >
-      <div
-        style={{
-          margin: `0 auto`,
-          padding: `1.45rem 1.0875rem`,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <h1 style={{ margin: 0 }}>
-          <Link
-            to="/"
-            style={{
-              color: `white`,
-              textDecoration: `none`,
+    <div className={classes.root}>
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar className={classes.toolBar}>
+          <h1 style={{ margin: 0 }}>
+            <Link
+              to="/"
+              style={{
+                color: `white`,
+                textDecoration: `none`,
+              }}
+            >
+              {siteTitle}
+            </Link>
+          </h1>
+
+          <CartInfo>Number of Items: {cartCount}</CartInfo>
+          <CartInfo>
+            Total:{' '}
+            {formatCurrencyString({
+              value: totalPrice,
+              currency: 'USD',
+            })}
+          </CartInfo>
+          <Button
+            disabled={loading}
+            onClick={() => {
+              setLoading(true);
+              redirectToCheckout();
             }}
           >
-            {siteTitle}
-          </Link>
-        </h1>
+            {loading ? 'Loading...' : 'Checkout'}
+          </Button>
+          <Button onClick={clearCart}>Clear Cart</Button>
+          <Tooltip title={!isCartDrawerOpen ? 'Open Cart' : 'Close Cart'}>
+            <IconButton onClick={() => setIsCartDrawerOpen((state) => !state)}>
+              <Badge badgeContent={cartCount} color="secondary">
+                <ShoppingCartIcon style={{ fill: 'white' }} />
+              </Badge>
+            </IconButton>
+          </Tooltip>
+        </Toolbar>
+      </AppBar>
 
-        <CartInfo>Number of Items: {cartCount}</CartInfo>
-        <CartInfo>
-          Total:{' '}
-          {formatCurrencyString({
-            value: totalPrice,
-            currency: 'USD',
-          })}
-        </CartInfo>
-        <Button
-          disabled={loading}
-          onClick={() => {
-            setLoading(true);
-            redirectToCheckout();
-          }}
-        >
-          {loading ? 'Loading...' : 'Checkout'}
-        </Button>
-        <Button onClick={clearCart}>Clear Cart</Button>
-      </div>
-    </header>
+      <CartDrawer
+        isDrawerOpen={isCartDrawerOpen}
+        setIsDrawerOpen={setIsCartDrawerOpen}
+      />
+    </div>
   );
 };
 
