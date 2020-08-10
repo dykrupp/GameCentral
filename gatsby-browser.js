@@ -13,7 +13,7 @@ export const wrapRootElement = ({ element }) => {
         <CartProvider
             mode="client-only"
             stripe={stripePromise}
-            successUrl={`${window.location.origin}/page-2/`}
+            successUrl={`${window.location.origin}/purchase-confirmation/`}
             cancelUrl={`${window.location.origin}/`}
             currency="USD"
             allowedCountries={['US', 'CA']}

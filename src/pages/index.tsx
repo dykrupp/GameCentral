@@ -11,7 +11,6 @@ const IndexPage: React.FC = () => (
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>
-    <Link to="/page2/">Go to page 2</Link> <br />
     <Link to="/using-typescript/">Go to &quot;Using TypeScript&quot;</Link>{' '}
     <br />
     <Link to="/products/">Go to products</Link> <br />

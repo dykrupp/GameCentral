@@ -20,6 +20,7 @@ interface ProductNode {
     id: string;
     images: string[];
   };
+  id: string;
   unit_amount: number;
   currency: string;
 }
@@ -49,6 +50,7 @@ const ProductContainer: React.FC = () => {
               id
               images
             }
+            id
             unit_amount
             currency
           }
@@ -79,7 +81,7 @@ const ProductContainer: React.FC = () => {
       {productNodes.map((productNode, index) => {
         const newProduct: Product = {
           name: productNode.product.name,
-          sku: productNode.product.id,
+          sku: productNode.id,
           price: productNode.unit_amount,
           currency: productNode.currency,
           description: productNode.product.description,
