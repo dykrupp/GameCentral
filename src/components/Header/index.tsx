@@ -1,7 +1,7 @@
 import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { useShoppingCart } from 'use-shopping-cart';
+import { useShoppingCart, formatCurrencyString } from 'use-shopping-cart';
 import styled from 'styled-components';
 
 interface HeaderPropTypes {
@@ -31,7 +31,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const [loading, setLoading] = useState(false);
 
   const {
-    formattedTotalPrice,
+    totalPrice,
     redirectToCheckout,
     cartCount,
     clearCart,
@@ -66,7 +66,13 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
         </h1>
 
         <CartInfo>Number of Items: {cartCount}</CartInfo>
-        <CartInfo>Total: {formattedTotalPrice}</CartInfo>
+        <CartInfo>
+          Total:{' '}
+          {formatCurrencyString({
+            value: totalPrice,
+            currency: 'USD',
+          })}
+        </CartInfo>
         <Button
           disabled={loading}
           onClick={() => {

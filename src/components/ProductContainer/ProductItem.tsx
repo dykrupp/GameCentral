@@ -3,8 +3,11 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FluidObject } from 'gatsby-image';
 import Img from 'gatsby-image';
-import { useShoppingCart, Product } from 'use-shopping-cart';
-import { formatPrice } from '../../utils';
+import {
+  useShoppingCart,
+  Product,
+  formatCurrencyString,
+} from 'use-shopping-cart';
 
 const Container = styled.div`
   display: flex;
@@ -57,7 +60,12 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, fluidImage }) => {
       <TitleHeader>{product.name}</TitleHeader>
       <Img style={{ width: '150px', margin: '0 auto' }} fluid={fluidImage} />
       <ProductInfo style={{ marginTop: '5px' }}>
-        Price: {formatPrice(product.price, product.currency)}
+        Price:{' '}
+        {formatCurrencyString({
+          value: product.price,
+          currency: product.currency,
+          language: 'EN',
+        })}
       </ProductInfo>
       <ProductInfo>{product.description}</ProductInfo>
       <BuyButton onClick={() => cart.addItem(product)}>ADD TO CART</BuyButton>
