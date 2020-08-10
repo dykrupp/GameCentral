@@ -63,7 +63,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, fluidImage }) => {
         Price:{' '}
         {formatCurrencyString({
           value: product.price,
-          currency: product.currency,
+          currency: 'USD',
           language: navigator.language,
         })}
       </ProductInfo>
