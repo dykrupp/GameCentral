@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { Tooltip, Button, Grid } from '@material-ui/core';
-import { useShoppingCart } from 'use-shopping-cart';
+import { useShoppingCart, formatCurrencyString } from 'use-shopping-cart';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import CloseIcon from '@material-ui/icons/Close';
@@ -54,9 +54,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     cartCount,
     clearCart,
     cartDetails,
-    formattedTotalPrice,
     incrementItem,
     decrementItem,
+    totalPrice,
     removeItem,
   } = useShoppingCart();
 
@@ -122,7 +122,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
                 <p
                   className={classes.productMetaData}
-                >{`Total Price: ${entry.formattedValue}`}</p>
+                >{`Unit Price: ${entry.formattedValue}`}</p>
               </Grid>
             );
           })}
@@ -130,7 +130,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         <Grid item style={{ marginTop: '20px' }}>
           <p
             className={classes.productMetaData}
-          >{`Total Price: ${formattedTotalPrice}`}</p>
+          >{`Order Total: ${formatCurrencyString({
+            value: totalPrice,
+            currency: 'USD',
+          })}`}</p>
         </Grid>
         <Grid
           item
