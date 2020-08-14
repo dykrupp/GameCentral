@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { NavigationTabs } from './NavigationTabs/index';
 import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
 import { headerHeight } from '../constants';
+import { NavigationMenu } from './NavigationMenu';
 
 interface HeaderPropTypes {
   siteTitle?: string;
@@ -27,6 +28,10 @@ const ToolBar = styled(Toolbar)`
 const TitleLink = styled(Link)`
   color: white;
   text-decoration: none;
+`;
+
+const ShoppingCartImage = styled(ShoppingCartIcon)`
+  fill: white;
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -49,11 +54,11 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
           <h1>
             <TitleLink to="/">{siteTitle}</TitleLink>
           </h1>
-          {!shouldRenderMenu && <NavigationTabs />}
+          {shouldRenderMenu ? <NavigationMenu /> : <NavigationTabs />}
           <Tooltip title={!isCartDrawerOpen ? 'Open Cart' : 'Close Cart'}>
             <IconButton onClick={() => setIsCartDrawerOpen((state) => !state)}>
               <Badge badgeContent={cartCount} color="secondary">
-                <ShoppingCartIcon style={{ fill: 'white' }} />
+                <ShoppingCartImage />
               </Badge>
             </IconButton>
           </Tooltip>

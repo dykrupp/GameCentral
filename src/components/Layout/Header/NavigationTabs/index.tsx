@@ -6,6 +6,7 @@ import nintendoIcon from '../../../../images/nintendo.png';
 import pcIcon from '../../../../images/pc.png';
 import vrIcon from '../../../../images/vr.png';
 import styled from 'styled-components';
+import { navigate } from 'gatsby';
 import { headerHeight } from '../../constants';
 
 const ProductTabs = styled(Tabs)`
@@ -39,6 +40,7 @@ export const NavigationTabs: React.FC = () => {
   return (
     <ProductTabs value={tabValue} onChange={handleChange} variant="fullWidth">
       <StyledTab
+        onClick={() => navigate('/products')}
         label={
           <TabContainer>
             <TabIcon src={ps4Icon} />
