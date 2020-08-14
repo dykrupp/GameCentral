@@ -5,11 +5,11 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { Tooltip, Button, Grid } from '@material-ui/core';
-import { headerHeight } from '../index';
 import { useShoppingCart } from 'use-shopping-cart';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import CloseIcon from '@material-ui/icons/Close';
+import { headerHeight } from '../../constants';
 
 const drawerWidth = '350px';
 

@@ -6,7 +6,7 @@ import nintendoIcon from '../../../../images/nintendo.png';
 import pcIcon from '../../../../images/pc.png';
 import vrIcon from '../../../../images/vr.png';
 import styled from 'styled-components';
-import { headerHeight } from '../index';
+import { headerHeight } from '../../constants';
 
 const ProductTabs = styled(Tabs)`
   margin-right: 155px;

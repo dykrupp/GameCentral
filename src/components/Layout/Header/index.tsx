@@ -10,12 +10,11 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import styled from 'styled-components';
 import { NavigationTabs } from './NavigationTabs/index';
 import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
+import { headerHeight } from '../constants';
 
 interface HeaderPropTypes {
   siteTitle?: string;
 }
-
-export const headerHeight = '64px';
 
 const HeaderContainer = styled.div`
   display: flex;
