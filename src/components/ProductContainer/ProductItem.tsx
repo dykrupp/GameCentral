@@ -59,7 +59,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, fluidImage }) => {
       <Button
         color="primary"
         variant="contained"
-        onClick={cart.addItem(product)}
+        onClick={() => cart.addItem(product)}
       >
         ADD TO CART
       </Button>

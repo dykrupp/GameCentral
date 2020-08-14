@@ -4,9 +4,12 @@ import React, { useState } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Badge from '@material-ui/core/Badge';
-import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
 import { CartDrawer } from './CartDrawer';
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import styled from 'styled-components';
+import { NavigationTabs } from './NavigationTabs/index';
+import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
 
 interface HeaderPropTypes {
   siteTitle?: string;
@@ -14,40 +17,40 @@ interface HeaderPropTypes {
 
 export const headerHeight = '64px';
 
+const HeaderContainer = styled.div`
+  display: flex;
+`;
+
+const ToolBar = styled(Toolbar)`
+  justify-content: space-between;
+`;
+
+const TitleLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+`;
+
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     height: headerHeight,
-  },
-  toolBar: {
-    justifyContent: 'space-between',
   },
 }));
 
 const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+  const { cartCount } = useShoppingCart();
+  const shouldRenderMenu = useMediaQuery('(max-width: 1300px');
   const classes = useStyles();
 
-  const { cartCount } = useShoppingCart();
-
   return (
-    <div className={classes.root}>
+    <HeaderContainer>
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar className={classes.toolBar}>
-          <h1 style={{ margin: 0 }}>
-            <Link
-              to="/"
-              style={{
-                color: `white`,
-                textDecoration: `none`,
-              }}
-            >
-              {siteTitle}
-            </Link>
+        <ToolBar>
+          <h1>
+            <TitleLink to="/">{siteTitle}</TitleLink>
           </h1>
+          {!shouldRenderMenu && <NavigationTabs />}
           <Tooltip title={!isCartDrawerOpen ? 'Open Cart' : 'Close Cart'}>
             <IconButton onClick={() => setIsCartDrawerOpen((state) => !state)}>
               <Badge badgeContent={cartCount} color="secondary">
@@ -55,14 +58,13 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
               </Badge>
             </IconButton>
           </Tooltip>
-        </Toolbar>
+        </ToolBar>
       </AppBar>
-
       <CartDrawer
         isDrawerOpen={isCartDrawerOpen}
         setIsDrawerOpen={setIsCartDrawerOpen}
       />
-    </div>
+    </HeaderContainer>
   );
 };
 

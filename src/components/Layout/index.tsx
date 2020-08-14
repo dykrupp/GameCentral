@@ -1,18 +1,27 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { useStaticQuery, graphql } from 'gatsby';
-import Header from '../Header';
+import Header from './Header';
+import styled from 'styled-components';
 import './layout.css';
 
 interface LayoutProps {
   children: ReactNode;
 }
+
+const LayoutContainer = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const MainContainer = styled.main`
+  flex-grow: 1;
+`;
+
+const Footer = styled.footer`
+  text-align: center;
+`;
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -26,22 +35,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   `);
 
   return (
-    <>
+    <LayoutContainer>
       <Header siteTitle={data.site.siteMetadata.title} />
-      <div
-        style={{
-          margin: `0 auto`,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
-      >
-        <main>{children}</main>
-        <footer style={{ textAlign: 'center' }}>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
-    </>
+      <MainContainer>{children}</MainContainer>
+      <Footer>
+        © {new Date().getFullYear()}, Built with
+        {` `}
+        <a href="https://www.gatsbyjs.org">Gatsby</a>
+      </Footer>
+    </LayoutContainer>
   );
 };
 

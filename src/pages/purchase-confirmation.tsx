@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import Layout from '../components/Layout';
-import SEO from '../components/seo';
+import SEO from '../components/SEO';
 import { useShoppingCart } from 'use-shopping-cart';
 
 const ConfirmationPage: React.FC = () => {

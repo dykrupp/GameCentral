@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import SEO from '../components/seo';
+import SEO from '../components/SEO';
 import ProductContainer from '../components/ProductContainer';
 
 const ProductsPage: React.FC = () => (

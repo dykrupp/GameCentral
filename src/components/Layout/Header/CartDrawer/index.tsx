@@ -60,8 +60,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     removeItem,
   } = useShoppingCart();
 
-  console.log(cartDetails);
-
   return (
     <Drawer
       className={classes.drawer}
@@ -143,7 +141,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           >{`Cart Count: ${cartCount}`}</p>
         </Grid>
         <Grid item className={classes.buttonContainer}>
-          <Button onClick={clearCart} color="primary" variant="contained">
+          <Button
+            onClick={() => clearCart()}
+            color="primary"
+            variant="contained"
+          >
             Clear Cart
           </Button>
         </Grid>
