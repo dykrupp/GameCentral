@@ -26,6 +26,7 @@
     "react-dom": "^16.12.0",
     "react-helmet": "^6.1.0",
     "styled-components": "^5.1.1",
+    "use-persisted-state": "^0.3.0",
     "use-shopping-cart": "^2.1.0"
   },
   "devDependencies": {
@@ -34,6 +35,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-helmet": "^6.1.0",
     "@types/styled-components": "^5.1.2",
+    "@types/use-persisted-state": "^0.3.0",
     "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@typescript-eslint/parser": "^3.9.0",
     "eslint": "^7.7.0",

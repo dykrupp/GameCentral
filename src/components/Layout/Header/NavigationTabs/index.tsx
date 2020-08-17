@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tabs, Tab } from '@material-ui/core';
 import ps4Icon from '../../../../images/ps4.png';
 import xboxIcon from '../../../../images/xbox.png';
@@ -15,6 +15,8 @@ import {
   PcUrl,
   VrUrl,
 } from '../../../../utils/types';
+import createPersistedState from 'use-persisted-state';
+const useTabIndexState = createPersistedState('tabIndex');
 
 const ProductTabs = styled(Tabs)`
   margin-right: 155px;
@@ -37,12 +39,15 @@ const TabIcon = styled.img`
 `;
 
 export const NavigationTabs: React.FC = () => {
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useTabIndexState(-1);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: React.ChangeEvent<any>, newValue: any) => {
     setTabValue(newValue);
   };
+
+  //TODO -> Save the tab value in global state so that way it doesn't reset w/ every page
+  console.log(tabValue);
 
   return (
     <ProductTabs value={tabValue} onChange={handleChange} variant="fullWidth">
