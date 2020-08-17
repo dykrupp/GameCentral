@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useStaticQuery, graphql } from 'gatsby';
 import Header from './Header';
 import styled from 'styled-components';
-import './layout.css';
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,8 +14,15 @@ const LayoutContainer = styled.div`
   flex-direction: column;
 `;
 
+const MainRoot = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const MainContainer = styled.main`
   flex-grow: 1;
+  margin-top: 64px;
+  max-width: 750px;
 `;
 
 const Footer = styled.footer`
@@ -37,7 +43,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <LayoutContainer>
       <Header siteTitle={data.site.siteMetadata.title} />
-      <MainContainer>{children}</MainContainer>
+      <MainRoot>
+        <MainContainer>{children}</MainContainer>
+      </MainRoot>
       <Footer>
         © {new Date().getFullYear()}, Built with
         {` `}

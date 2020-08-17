@@ -13,16 +13,20 @@ const Container = styled.div`
   padding: 1rem 0 1rem 0;
 `;
 
-interface ProductNode {
+interface PriceNode {
   product: {
     name: string;
     description: string;
     id: string;
     images: string[];
+    metadata: {
+      type: string;
+    };
   };
   id: string;
   unit_amount: number;
   currency: string;
+  active: boolean;
 }
 
 interface imageLocalFile {
@@ -39,20 +43,24 @@ interface ImageNode {
 }
 
 const ProductContainer: React.FC = () => {
-  const { products, images } = useStaticQuery(
+  const { prices, images } = useStaticQuery(
     graphql`
       query ProductInfo {
-        products: allStripePrice {
+        prices: allStripePrice {
           nodes {
             product {
               name
               description
               id
               images
+              metadata {
+                type
+              }
             }
             id
             unit_amount
             currency
+            active
           }
         }
         images: allStripeProduct {
@@ -74,25 +82,36 @@ const ProductContainer: React.FC = () => {
   );
 
   const imageNodes = images.nodes as ImageNode[];
-  const productNodes = products.nodes as ProductNode[];
+  const priceNodes = (prices.nodes as PriceNode[]).filter(
+    (priceNode) => priceNode.active
+  );
 
   return (
     <Container>
-      {productNodes.map((productNode, index) => {
+      {priceNodes.map((priceNode, index) => {
         const newProduct: Product = {
-          name: productNode.product.name,
-          sku: productNode.id,
-          price: productNode.unit_amount,
-          currency: productNode.currency,
-          description: productNode.product.description,
-          image: productNode.product.images[0],
+          name: priceNode.product.name,
+          sku: priceNode.id,
+          price: priceNode.unit_amount,
+          currency: priceNode.currency,
+          description: priceNode.product.description,
+          image: priceNode.product.images[0],
         };
+
+        const currentFluidImage = imageNodes.find(
+          (x) => x.localFiles[0].parent.id === priceNode.product.id
+        );
+
+        if (!currentFluidImage) {
+          console.log(`Not showing ${newProduct.name}, due to missing image`);
+          return null;
+        }
 
         return (
           <ProductItem
             key={index}
             product={newProduct}
-            fluidImage={imageNodes[index].localFiles[0].childImageSharp.fluid}
+            fluidImage={currentFluidImage.localFiles[0].childImageSharp.fluid}
           />
         );
       })}

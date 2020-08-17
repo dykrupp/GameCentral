@@ -13,14 +13,15 @@ import {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 20px !important;
   box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.2);
   background-color: #fff;
   border-radius: 6px;
   width: 205px;
+  margin: 0 auto;
 `;
 
 const TitleHeader = styled.h4`
@@ -47,7 +48,8 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, fluidImage }) => {
     <Container>
       <TitleHeader>{product.name}</TitleHeader>
       <Img style={{ width: '150px', margin: '0 auto' }} fluid={fluidImage} />
-      <ProductInfo style={{ marginTop: '5px' }}>
+      <ProductInfo>{product.description}</ProductInfo>
+      <ProductInfo style={{ margin: '5px' }}>
         Price:{' '}
         {formatCurrencyString({
           value: product.price,
@@ -55,7 +57,6 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, fluidImage }) => {
           language: 'EN',
         })}
       </ProductInfo>
-      <ProductInfo>{product.description}</ProductInfo>
       <Button
         color="primary"
         variant="contained"
