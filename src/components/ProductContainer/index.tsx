@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import ProductItem from './ProductItem';
 import { FluidObject } from 'gatsby-image';
 import { Product } from 'use-shopping-cart';
+import { ProductType } from '../../utils/types';
+import PropTypes from 'prop-types';
 
 const Container = styled.div`
   display: flex;
@@ -42,7 +44,11 @@ interface ImageNode {
   localFiles: imageLocalFile[];
 }
 
-const ProductContainer: React.FC = () => {
+interface ProductContainerProps {
+  type: ProductType;
+}
+
+const ProductContainer: React.FC<ProductContainerProps> = ({ type }) => {
   const { prices, images } = useStaticQuery(
     graphql`
       query ProductInfo {
@@ -89,6 +95,8 @@ const ProductContainer: React.FC = () => {
   return (
     <Container>
       {priceNodes.map((priceNode, index) => {
+        if (type !== priceNode.product.metadata.type) return null;
+
         const newProduct: Product = {
           name: priceNode.product.name,
           sku: priceNode.id,
@@ -117,6 +125,10 @@ const ProductContainer: React.FC = () => {
       })}
     </Container>
   );
+};
+
+ProductContainer.propTypes = {
+  type: PropTypes.string.isRequired,
 };
 
 export default ProductContainer;

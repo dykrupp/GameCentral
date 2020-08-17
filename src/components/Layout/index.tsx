@@ -27,6 +27,7 @@ const MainContainer = styled.main`
 
 const Footer = styled.footer`
   text-align: center;
+  margin-bottom: 20px;
 `;
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
@@ -46,11 +47,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <MainRoot>
         <MainContainer>{children}</MainContainer>
       </MainRoot>
-      <Footer>
-        © {new Date().getFullYear()}, Built with
-        {` `}
-        <a href="https://www.gatsbyjs.org">Gatsby</a>
-      </Footer>
+      <Footer>Made with ❤️ by Dylan Krupp, August 2020</Footer>
     </LayoutContainer>
   );
 };

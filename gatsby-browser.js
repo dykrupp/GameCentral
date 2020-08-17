@@ -2,7 +2,7 @@ import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { CartProvider } from 'use-shopping-cart'
 import { ThemeProvider, createMuiTheme, createPalette, createTypography } from '@material-ui/core/styles';
-import './src/styles/global.css';
+import './src/utils/global.css';
 
 const stripePromise = loadStripe(
     process.env.GATSBY_STRIPE_PUBLISHABLE_KEY

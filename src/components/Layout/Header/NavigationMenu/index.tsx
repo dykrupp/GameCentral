@@ -5,6 +5,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { IconButton } from '@material-ui/core';
 import styled from 'styled-components';
 import { navigate } from 'gatsby';
+import { Ps4Url, NintendoUrl, XboxUrl } from '../../../../utils/types';
 
 const MenuImage = styled(MenuIcon)`
   fill: white;
@@ -35,13 +36,27 @@ export const NavigationMenu: React.FC = () => {
         <MenuItem
           onClick={() => {
             handleClose();
-            navigate('/products');
+            navigate(Ps4Url);
           }}
         >
           PS4
         </MenuItem>
-        <MenuItem onClick={handleClose}>Xbox One</MenuItem>
-        <MenuItem onClick={handleClose}>Nintendo Switch</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            navigate(XboxUrl);
+          }}
+        >
+          Xbox One
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            navigate(NintendoUrl);
+          }}
+        >
+          Nintendo Switch
+        </MenuItem>
         <MenuItem onClick={handleClose}>PC Gaming</MenuItem>
         <MenuItem onClick={handleClose}>Virtual Reality</MenuItem>
       </Menu>
