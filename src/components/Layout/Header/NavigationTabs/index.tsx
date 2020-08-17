@@ -46,9 +46,6 @@ export const NavigationTabs: React.FC = () => {
     setTabValue(newValue);
   };
 
-  //TODO -> Save the tab value in global state so that way it doesn't reset w/ every page
-  console.log(tabValue);
-
   return (
     <ProductTabs value={tabValue} onChange={handleChange} variant="fullWidth">
       <StyledTab

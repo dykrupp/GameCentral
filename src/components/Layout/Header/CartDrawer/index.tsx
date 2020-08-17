@@ -10,33 +10,54 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import CloseIcon from '@material-ui/icons/Close';
 import { headerHeight } from '../../constants';
+import styled from 'styled-components';
 
 const drawerWidth = '350px';
 
+const FixedWidthDrawer = styled(Drawer)`
+  width: ${drawerWidth};
+  flex-shrink: 0;
+`;
+
+const HeaderContainer = styled(Grid)`
+  margin-top: ${headerHeight};
+`;
+
+const CartItem = styled(Grid)`
+  width: 100%;
+  border-bottom: 2px solid black;
+  margin-top: 5px;
+`;
+
+const ProductMetadata = styled.p`
+  text-align: center;
+`;
+
+const CenteredDiv = styled.div`
+  justify-content: center;
+  display: flex;
+`;
+
+const ButtonContainer = styled(Grid)`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+`;
+
 const useStyles = makeStyles(() => ({
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
   drawerPaper: {
     width: drawerWidth,
   },
-  gridContainer: {
-    marginTop: headerHeight,
-  },
-  buttonContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: '20px',
-  },
-  productMetaData: {
-    textAlign: 'center',
-  },
-  quantityButtonDiv: {
-    justifyContent: 'center',
-    display: 'flex',
-  },
 }));
+
+const CartCountContainer = styled(Grid)`
+  margin-top: 20px;
+`;
+
+const OrderTotalContainer = styled(Grid)`
+  border-bottom: 2px solid black;
+  margin-bottom: 20px;
+`;
 
 interface CartDrawerProps {
   isDrawerOpen: boolean;
@@ -61,8 +82,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   } = useShoppingCart();
 
   return (
-    <Drawer
-      className={classes.drawer}
+    <FixedWidthDrawer
       variant="persistent"
       anchor="right"
       open={isDrawerOpen}
@@ -70,7 +90,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         paper: classes.drawerPaper,
       }}
     >
-      <Grid container direction="column" className={classes.gridContainer}>
+      <HeaderContainer container direction="column">
         <Grid item>
           <Tooltip title="Close Cart">
             <IconButton onClick={(): void => setIsDrawerOpen(false)}>
@@ -78,72 +98,53 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             </IconButton>
           </Tooltip>
         </Grid>
-        <Grid item container>
-          {Object.keys(cartDetails).map((key, index) => {
-            const entry = cartDetails[key];
-            return (
-              <Grid
-                item
-                key={index}
-                style={{
-                  width: '100%',
-                  borderBottom: '2px solid black',
-                  marginTop: '5px',
-                }}
-              >
-                <p
-                  className={classes.productMetaData}
-                >{`Name: ${entry.name}`}</p>
-                <div className={classes.quantityButtonDiv}>
-                  <img style={{ width: '125px' }} src={entry.image} />
-                </div>
-                <p
-                  className={classes.productMetaData}
-                >{`Description: ${entry.description}`}</p>
-                <p
-                  className={classes.productMetaData}
-                >{`Quantity: ${entry.quantity}`}</p>
-                <div className={classes.quantityButtonDiv}>
-                  <Tooltip title="Increment Quantity">
-                    <IconButton onClick={() => incrementItem(key)}>
-                      <AddIcon color="primary" />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Decrement Quantity">
-                    <IconButton onClick={() => decrementItem(key)}>
-                      <RemoveIcon color="primary" />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Remove All">
-                    <IconButton onClick={() => removeItem(key)}>
-                      <CloseIcon color="primary" />
-                    </IconButton>
-                  </Tooltip>
-                </div>
-                <p
-                  className={classes.productMetaData}
-                >{`Unit Price: ${entry.formattedValue}`}</p>
-              </Grid>
-            );
-          })}
-        </Grid>
-        <Grid item style={{ marginTop: '20px' }}>
-          <p
-            className={classes.productMetaData}
-          >{`Order Total: ${formatCurrencyString({
+      </HeaderContainer>
+      <Grid item container>
+        {Object.keys(cartDetails).map((key, index) => {
+          const entry = cartDetails[key];
+          return (
+            <CartItem item key={index}>
+              <ProductMetadata>{entry.name}</ProductMetadata>
+              <CenteredDiv>
+                <img style={{ width: '125px' }} src={entry.image} />
+              </CenteredDiv>
+              <ProductMetadata>{`Description: ${entry.description}`}</ProductMetadata>
+              <ProductMetadata>{`Quantity: ${entry.quantity}`}</ProductMetadata>
+              <CenteredDiv>
+                <Tooltip title="Increment Quantity">
+                  <IconButton onClick={() => incrementItem(key)}>
+                    <AddIcon color="primary" />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Decrement Quantity">
+                  <IconButton onClick={() => decrementItem(key)}>
+                    <RemoveIcon color="primary" />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Remove All">
+                  <IconButton onClick={() => removeItem(key)}>
+                    <CloseIcon color="primary" />
+                  </IconButton>
+                </Tooltip>
+              </CenteredDiv>
+              <ProductMetadata>{`Unit Price: ${entry.formattedValue}`}</ProductMetadata>
+            </CartItem>
+          );
+        })}
+      </Grid>
+      <CartCountContainer>
+        <ProductMetadata>{`Cart Count: ${cartCount}`}</ProductMetadata>
+      </CartCountContainer>
+      <OrderTotalContainer>
+        <ProductMetadata>
+          {`Order Total: ${formatCurrencyString({
             value: totalPrice,
             currency: 'USD',
-          })}`}</p>
-        </Grid>
-        <Grid
-          item
-          style={{ borderBottom: '2px solid black', marginBottom: '20px' }}
-        >
-          <p
-            className={classes.productMetaData}
-          >{`Cart Count: ${cartCount}`}</p>
-        </Grid>
-        <Grid item className={classes.buttonContainer}>
+          })}`}
+        </ProductMetadata>
+      </OrderTotalContainer>
+      <div>
+        <ButtonContainer item>
           <Button
             onClick={() => clearCart()}
             color="primary"
@@ -151,8 +152,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           >
             Clear Cart
           </Button>
-        </Grid>
-        <Grid item className={classes.buttonContainer}>
+        </ButtonContainer>
+        <ButtonContainer item>
           <Button
             onClick={() => redirectToCheckout()}
             color="primary"
@@ -161,9 +162,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           >
             Checkout
           </Button>
-        </Grid>
-      </Grid>
-    </Drawer>
+        </ButtonContainer>
+      </div>
+    </FixedWidthDrawer>
   );
 };
 
