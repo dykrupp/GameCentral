@@ -76,7 +76,7 @@ const ProductContainer: React.FC<ProductContainerProps> = ({ type }) => {
                 id
               }
               childImageSharp {
-                fluid(maxWidth: 150, maxHeight: 190) {
+                fluid(maxWidth: 150) {
                   ...GatsbyImageSharpFluid
                 }
               }

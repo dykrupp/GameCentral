@@ -8,7 +8,13 @@ import vrIcon from '../../../../images/vr.png';
 import styled from 'styled-components';
 import { navigate } from 'gatsby';
 import { headerHeight } from '../../constants';
-import { Ps4Url, NintendoUrl, XboxUrl } from '../../../../utils/types';
+import {
+  Ps4Url,
+  NintendoUrl,
+  XboxUrl,
+  PcUrl,
+  VrUrl,
+} from '../../../../utils/types';
 
 const ProductTabs = styled(Tabs)`
   margin-right: 155px;
@@ -68,6 +74,7 @@ export const NavigationTabs: React.FC = () => {
         }
       />
       <StyledTab
+        onClick={() => navigate(PcUrl)}
         label={
           <TabContainer>
             <TabIcon src={pcIcon} />
@@ -76,6 +83,7 @@ export const NavigationTabs: React.FC = () => {
         }
       />
       <StyledTab
+        onClick={() => navigate(VrUrl)}
         label={
           <TabContainer>
             <TabIcon src={vrIcon} />
