@@ -48,6 +48,8 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const [tabValue, setTabValue] = useState<false | number>(false);
   const classes = useStyles();
 
+  console.log(cartCount);
+
   return (
     <HeaderContainer>
       <AppBar position="fixed" className={classes.appBar}>
