@@ -12,6 +12,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { headerHeight } from '../../constants';
 import styled from 'styled-components';
 
+//TODO -> Image optmization / Lazy Loading
+
 const drawerWidth = '350px';
 
 const FixedWidthDrawer = styled(Drawer)`
