@@ -111,9 +111,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       <Grid item container>
         {Object.keys(cartDetails).map((key, index) => (
           <CartItem
+            key={key}
             entry={cartDetails[key]}
             index={index}
-            key={key}
+            keyProp={key}
             incrementItem={incrementItem}
             decrementItem={decrementItem}
             removeItem={removeItem}
@@ -164,7 +165,7 @@ CartDrawer.propTypes = {
 interface CartItemProps {
   index: number;
   entry: CartEntry;
-  key: string;
+  keyProp: string;
   incrementItem: (sku: string) => void;
   decrementItem: (sku: string) => void;
   removeItem: (sku: string) => void;
@@ -172,8 +173,7 @@ interface CartItemProps {
 
 const CartItem: React.FC<CartItemProps> = ({
   entry,
-  index,
-  key,
+  keyProp,
   incrementItem,
   decrementItem,
   removeItem,
@@ -188,11 +188,7 @@ const CartItem: React.FC<CartItemProps> = ({
           <CircularProgress />
         </Backdrop>
       )}
-      <CartItemContainer
-        item
-        key={index}
-        style={isLoading ? { display: 'none' } : {}}
-      >
+      <CartItemContainer item style={isLoading ? { display: 'none' } : {}}>
         <ProductMetadata>{entry.name}</ProductMetadata>
         <CenteredDiv>
           <img
@@ -205,17 +201,17 @@ const CartItem: React.FC<CartItemProps> = ({
         <ProductMetadata>{`Quantity: ${entry.quantity}`}</ProductMetadata>
         <CenteredDiv>
           <Tooltip title="Increment Quantity">
-            <IconButton onClick={() => incrementItem(key)}>
+            <IconButton onClick={() => incrementItem(keyProp)}>
               <AddIcon color="primary" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Decrement Quantity">
-            <IconButton onClick={() => decrementItem(key)}>
+            <IconButton onClick={() => decrementItem(keyProp)}>
               <RemoveIcon color="primary" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Remove All">
-            <IconButton onClick={() => removeItem(key)}>
+            <IconButton onClick={() => removeItem(keyProp)}>
               <CloseIcon color="primary" />
             </IconButton>
           </Tooltip>
@@ -228,8 +224,7 @@ const CartItem: React.FC<CartItemProps> = ({
 
 CartItem.propTypes = {
   entry: PropTypes.any.isRequired,
-  index: PropTypes.number.isRequired,
-  key: PropTypes.string.isRequired,
+  keyProp: PropTypes.string.isRequired,
   incrementItem: PropTypes.func.isRequired,
   decrementItem: PropTypes.func.isRequired,
   removeItem: PropTypes.func.isRequired,
