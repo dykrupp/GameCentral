@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { Tooltip, Button, Grid } from '@material-ui/core';
-import { useShoppingCart, formatCurrencyString } from 'use-shopping-cart';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import CloseIcon from '@material-ui/icons/Close';
 import { headerHeight } from '../../constants';
 import styled from 'styled-components';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Backdrop from '@material-ui/core/Backdrop';
+import {
+  useShoppingCart,
+  formatCurrencyString,
+  CartEntry,
+} from 'use-shopping-cart';
 
 const drawerWidth = '350px';
 
@@ -23,7 +29,7 @@ const HeaderContainer = styled(Grid)`
   margin-top: ${headerHeight};
 `;
 
-const CartItem = styled(Grid)`
+const CartItemContainer = styled(Grid)`
   width: 100%;
   border-bottom: 2px solid black;
   margin-top: 5px;
@@ -44,9 +50,12 @@ const ButtonContainer = styled(Grid)`
   margin-bottom: 20px;
 `;
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
   },
 }));
 
@@ -100,38 +109,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         </Grid>
       </HeaderContainer>
       <Grid item container>
-        {Object.keys(cartDetails).map((key, index) => {
-          const entry = cartDetails[key];
-          const currentCartItem = (
-            <CartItem item key={index}>
-              <ProductMetadata>{entry.name}</ProductMetadata>
-              <CenteredDiv>
-                <img style={{ width: '125px' }} src={entry.image} />
-              </CenteredDiv>
-              <ProductMetadata>{`Description: ${entry.description}`}</ProductMetadata>
-              <ProductMetadata>{`Quantity: ${entry.quantity}`}</ProductMetadata>
-              <CenteredDiv>
-                <Tooltip title="Increment Quantity">
-                  <IconButton onClick={() => incrementItem(key)}>
-                    <AddIcon color="primary" />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Decrement Quantity">
-                  <IconButton onClick={() => decrementItem(key)}>
-                    <RemoveIcon color="primary" />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Remove All">
-                  <IconButton onClick={() => removeItem(key)}>
-                    <CloseIcon color="primary" />
-                  </IconButton>
-                </Tooltip>
-              </CenteredDiv>
-              <ProductMetadata>{`Unit Price: ${entry.formattedValue}`}</ProductMetadata>
-            </CartItem>
-          );
-          return currentCartItem;
-        })}
+        {Object.keys(cartDetails).map((key, index) => (
+          <CartItem
+            entry={cartDetails[key]}
+            index={index}
+            key={key}
+            incrementItem={incrementItem}
+            decrementItem={decrementItem}
+            removeItem={removeItem}
+          />
+        ))}
       </Grid>
       <CartCountContainer>
         <ProductMetadata>{`Cart Count: ${cartCount}`}</ProductMetadata>
@@ -172,4 +159,78 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 CartDrawer.propTypes = {
   isDrawerOpen: PropTypes.bool.isRequired,
   setIsDrawerOpen: PropTypes.func.isRequired,
+};
+
+interface CartItemProps {
+  index: number;
+  entry: CartEntry;
+  key: string;
+  incrementItem: (sku: string) => void;
+  decrementItem: (sku: string) => void;
+  removeItem: (sku: string) => void;
+}
+
+const CartItem: React.FC<CartItemProps> = ({
+  entry,
+  index,
+  key,
+  incrementItem,
+  decrementItem,
+  removeItem,
+}) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const classes = useStyles();
+
+  return (
+    <div>
+      {isLoading && (
+        <Backdrop className={classes.backdrop} open={isLoading}>
+          <CircularProgress />
+        </Backdrop>
+      )}
+      <CartItemContainer
+        item
+        key={index}
+        style={isLoading ? { display: 'none' } : {}}
+      >
+        <ProductMetadata>{entry.name}</ProductMetadata>
+        <CenteredDiv>
+          <img
+            style={{ width: '125px' }}
+            src={entry.image}
+            onLoad={() => setIsLoading(false)}
+          />
+        </CenteredDiv>
+        <ProductMetadata>{`Description: ${entry.description}`}</ProductMetadata>
+        <ProductMetadata>{`Quantity: ${entry.quantity}`}</ProductMetadata>
+        <CenteredDiv>
+          <Tooltip title="Increment Quantity">
+            <IconButton onClick={() => incrementItem(key)}>
+              <AddIcon color="primary" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Decrement Quantity">
+            <IconButton onClick={() => decrementItem(key)}>
+              <RemoveIcon color="primary" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Remove All">
+            <IconButton onClick={() => removeItem(key)}>
+              <CloseIcon color="primary" />
+            </IconButton>
+          </Tooltip>
+        </CenteredDiv>
+        <ProductMetadata>{`Unit Price: ${entry.formattedValue}`}</ProductMetadata>
+      </CartItemContainer>
+    </div>
+  );
+};
+
+CartItem.propTypes = {
+  entry: PropTypes.any.isRequired,
+  index: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired,
+  incrementItem: PropTypes.func.isRequired,
+  decrementItem: PropTypes.func.isRequired,
+  removeItem: PropTypes.func.isRequired,
 };
