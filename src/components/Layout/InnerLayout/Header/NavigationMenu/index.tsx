@@ -11,7 +11,7 @@ import {
   XboxUrl,
   PcUrl,
   VrUrl,
-} from '../../../../utils/types';
+} from '../../../../../utils/types';
 
 const MenuImage = styled(MenuIcon)`
   fill: white;

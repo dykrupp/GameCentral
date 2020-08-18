@@ -12,9 +12,6 @@ import { NavigationTabs } from './NavigationTabs/index';
 import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
 import { headerHeight } from '../constants';
 import { NavigationMenu } from './NavigationMenu';
-import createPersistedState from 'use-persisted-state';
-
-const useTabIndexState = createPersistedState('tabIndex');
 
 interface HeaderPropTypes {
   siteTitle?: string;
@@ -41,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     height: headerHeight,
-    backgroundColor: '#673AB7',
   },
 }));
 
@@ -49,7 +45,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const { cartCount } = useShoppingCart();
   const shouldRenderMenu = useMediaQuery('(max-width: 1300px');
-  const [tabValue, setTabValue] = useTabIndexState<false | number>(false);
+  const [tabValue, setTabValue] = useState<false | number>(false);
   const classes = useStyles();
 
   return (

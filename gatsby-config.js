@@ -9,6 +9,12 @@ module.exports = {
     author: `Dylan Krupp`,
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve('./src/components/Layout/index.js')
+      },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-material-ui`,
