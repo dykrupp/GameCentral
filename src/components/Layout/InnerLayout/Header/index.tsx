@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const { cartCount } = useShoppingCart();
-  const shouldRenderMenu = useMediaQuery('(max-width: 1300px');
+  const shouldRenderMenu = useMediaQuery('(max-width: 1300px)');
   const [tabValue, setTabValue] = useState<false | number>(false);
   const classes = useStyles();
 
