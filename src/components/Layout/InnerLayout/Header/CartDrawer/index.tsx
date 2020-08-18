@@ -108,7 +108,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             <CartItem item key={index}>
               <ProductMetadata>{entry.name}</ProductMetadata>
               <CenteredDiv>
-                <img style={{ width: '125px' }} src={entry.image} />
+                <img
+                  style={{ width: '125px' }}
+                  src={entry.image}
+                  loading="eager"
+                />
               </CenteredDiv>
               <ProductMetadata>{`Description: ${entry.description}`}</ProductMetadata>
               <ProductMetadata>{`Quantity: ${entry.quantity}`}</ProductMetadata>

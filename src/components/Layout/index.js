@@ -5,9 +5,6 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import InnerLayout from './InnerLayout';
 
-//TODO -> Can this file be a true TS .tsx file? or does it need to be a standard .js file
-//TODO -> Squash commits once done
-
 const stripePromise = loadStripe(
   process.env.GATSBY_STRIPE_PUBLISHABLE_KEY
     ? process.env.GATSBY_STRIPE_PUBLISHABLE_KEY
