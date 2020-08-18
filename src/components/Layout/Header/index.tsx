@@ -58,7 +58,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
 
   return (
     <HeaderContainer>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar} color="primary">
         <ToolBar>
           <h1>
             <TitleLink to="/">{siteTitle}</TitleLink>
