@@ -8,6 +8,7 @@ import vrIcon from '../../../../images/vr.png';
 import styled from 'styled-components';
 import { navigate } from 'gatsby';
 import { headerHeight } from '../../constants';
+import PropTypes from 'prop-types';
 import {
   Ps4Url,
   NintendoUrl,
@@ -15,8 +16,6 @@ import {
   PcUrl,
   VrUrl,
 } from '../../../../utils/types';
-import createPersistedState from 'use-persisted-state';
-const useTabIndexState = createPersistedState('tabIndex');
 
 const ProductTabs = styled(Tabs)`
   margin-right: 155px;
@@ -38,9 +37,15 @@ const TabIcon = styled.img`
   margin-right: 10px;
 `;
 
-export const NavigationTabs: React.FC = () => {
-  const [tabValue, setTabValue] = useTabIndexState(-1);
+interface NavigationTabProps {
+  tabValue: false | number;
+  setTabValue: (tabValue: false | number) => void;
+}
 
+export const NavigationTabs: React.FC<NavigationTabProps> = ({
+  tabValue,
+  setTabValue,
+}) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: React.ChangeEvent<any>, newValue: any) => {
     setTabValue(newValue);
@@ -95,4 +100,9 @@ export const NavigationTabs: React.FC = () => {
       />
     </ProductTabs>
   );
+};
+
+NavigationTabs.propTypes = {
+  tabValue: PropTypes.any.isRequired,
+  setTabValue: PropTypes.func.isRequired,
 };
