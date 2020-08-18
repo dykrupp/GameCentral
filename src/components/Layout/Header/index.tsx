@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     height: headerHeight,
+    backgroundColor: '#673AB7',
   },
 }));
 
@@ -58,7 +59,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
 
   return (
     <HeaderContainer>
-      <AppBar position="fixed" className={classes.appBar} color="primary">
+      <AppBar position="fixed" className={classes.appBar}>
         <ToolBar>
           <h1>
             <TitleLink to="/">{siteTitle}</TitleLink>
