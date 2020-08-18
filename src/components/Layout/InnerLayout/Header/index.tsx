@@ -45,6 +45,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const { cartCount } = useShoppingCart();
   const shouldRenderMenu = useMediaQuery('(max-width: 1300px');
+  const [tabValue, setTabValue] = useState<false | number>(false);
   const classes = useStyles();
 
   return (
@@ -52,9 +53,15 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
       <AppBar position="fixed" className={classes.appBar}>
         <ToolBar>
           <h1>
-            <TitleLink to="/">{siteTitle}</TitleLink>
+            <TitleLink to="/" onClick={() => setTabValue(false)}>
+              {siteTitle}
+            </TitleLink>
           </h1>
-          {shouldRenderMenu ? <NavigationMenu /> : <NavigationTabs />}
+          {shouldRenderMenu ? (
+            <NavigationMenu />
+          ) : (
+            <NavigationTabs tabValue={tabValue} setTabValue={setTabValue} />
+          )}
           <Tooltip title={!isCartDrawerOpen ? 'Open Cart' : 'Close Cart'}>
             <IconButton onClick={() => setIsCartDrawerOpen((state) => !state)}>
               <Badge badgeContent={cartCount} color="secondary">
