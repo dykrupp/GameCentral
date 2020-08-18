@@ -22,18 +22,19 @@ const themeName = 'Purple Heart Denim Python';
 
 export const wrapRootElement = ({ element }) => {
     return (
-        <CartProvider
-            mode="client-only"
-            stripe={stripePromise}
-            successUrl={`${window.location.origin}/purchase-confirmation/`}
-            cancelUrl={`${window.location.origin}/`}
-            currency="USD"
-            allowedCountries={['US', 'CA']}
-            billingAddressCollection={true}
-        >
         <ThemeProvider theme={createMuiTheme({ palette, themeName, typography })}>
-        {element}
+            <CartProvider
+                mode="client-only"
+                stripe={stripePromise}
+                successUrl={`${window.location.origin}/purchase-confirmation/`}
+                cancelUrl={`${window.location.origin}/`}
+                currency="USD"
+                allowedCountries={['US', 'CA']}
+                billingAddressCollection={true}
+            >
+      
+                {element}
+            </CartProvider>
         </ThemeProvider>
-        </CartProvider>
     );
 }
