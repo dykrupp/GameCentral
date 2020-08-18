@@ -12,8 +12,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import { headerHeight } from '../../constants';
 import styled from 'styled-components';
 
-//TODO -> Image optmization / Lazy Loading
-
 const drawerWidth = '350px';
 
 const FixedWidthDrawer = styled(Drawer)`
@@ -104,15 +102,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       <Grid item container>
         {Object.keys(cartDetails).map((key, index) => {
           const entry = cartDetails[key];
-          return (
+          const currentCartItem = (
             <CartItem item key={index}>
               <ProductMetadata>{entry.name}</ProductMetadata>
               <CenteredDiv>
-                <img
-                  style={{ width: '125px' }}
-                  src={entry.image}
-                  loading="eager"
-                />
+                <img style={{ width: '125px' }} src={entry.image} />
               </CenteredDiv>
               <ProductMetadata>{`Description: ${entry.description}`}</ProductMetadata>
               <ProductMetadata>{`Quantity: ${entry.quantity}`}</ProductMetadata>
@@ -136,6 +130,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               <ProductMetadata>{`Unit Price: ${entry.formattedValue}`}</ProductMetadata>
             </CartItem>
           );
+          return currentCartItem;
         })}
       </Grid>
       <CartCountContainer>
