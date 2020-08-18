@@ -9,7 +9,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import styled from 'styled-components';
 import { NavigationTabs } from './NavigationTabs/index';
-import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
+import {
+  IconButton,
+  Tooltip,
+  AppBar,
+  Toolbar,
+  useTheme,
+} from '@material-ui/core';
 import { headerHeight } from '../constants';
 import { NavigationMenu } from './NavigationMenu';
 
@@ -46,6 +52,9 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const { cartCount } = useShoppingCart();
   const shouldRenderMenu = useMediaQuery('(max-width: 1300px');
   const classes = useStyles();
+  const currentTheme = useTheme();
+
+  console.log(currentTheme);
 
   return (
     <HeaderContainer>
