@@ -84,9 +84,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
             </Tooltip>
           </TitleContainer>
           <NavigationContainer>
-            {!isQueryReady ? (
-              <h1>Loading</h1>
-            ) : shouldRenderMenu ? (
+            {!isQueryReady ? null : shouldRenderMenu ? (
               <NavigationMenu />
             ) : (
               <NavigationTabs tabValue={tabValue} setTabValue={setTabValue} />
