@@ -28,10 +28,22 @@ const ToolBar = styled(Toolbar)`
 const TitleLink = styled(Link)`
   color: white;
   text-decoration: none;
+  outline: none;
 `;
 
 const ShoppingCartImage = styled(ShoppingCartIcon)`
   fill: white;
+`;
+
+const NavigationContainer = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  min-width: 180px;
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -46,9 +58,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const shoppingCart = useShoppingCart();
   const [currentCartCount, setCurrentCartCount] = useState(0);
   const [tabValue, setTabValue] = useState<false | number>(false);
-  const shouldRenderMenu = useMediaQuery('(max-width: 1300px)', {
-    noSsr: true,
-  });
+  const shouldRenderMenu = useMediaQuery('(max-width: 1300px)');
   const classes = useStyles();
 
   useEffect(() => {
@@ -59,16 +69,22 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
     <HeaderContainer>
       <AppBar position="fixed" className={classes.appBar}>
         <ToolBar>
-          <h1>
-            <TitleLink to="/" onClick={() => setTabValue(false)}>
-              {siteTitle}
-            </TitleLink>
-          </h1>
-          {shouldRenderMenu ? (
-            <NavigationMenu />
-          ) : (
-            <NavigationTabs tabValue={tabValue} setTabValue={setTabValue} />
-          )}
+          <TitleContainer>
+            <Tooltip title="Home">
+              <h1>
+                <TitleLink to="/" onClick={() => setTabValue(false)}>
+                  {siteTitle}
+                </TitleLink>
+              </h1>
+            </Tooltip>
+          </TitleContainer>
+          <NavigationContainer>
+            {shouldRenderMenu ? (
+              <NavigationMenu />
+            ) : (
+              <NavigationTabs tabValue={tabValue} setTabValue={setTabValue} />
+            )}
+          </NavigationContainer>
           <Tooltip title={!isCartDrawerOpen ? 'Open Cart' : 'Close Cart'}>
             <IconButton onClick={() => setIsCartDrawerOpen((state) => !state)}>
               <Badge badgeContent={currentCartCount} color="secondary">
