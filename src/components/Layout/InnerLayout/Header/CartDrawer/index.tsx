@@ -90,8 +90,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     removeItem,
   } = useShoppingCart();
 
-  console.log(cartCount);
-
   return (
     <FixedWidthDrawer
       variant="persistent"

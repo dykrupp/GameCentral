@@ -66,11 +66,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
           )}
           <Tooltip title={!isCartDrawerOpen ? 'Open Cart' : 'Close Cart'}>
             <IconButton onClick={() => setIsCartDrawerOpen((state) => !state)}>
-              <Badge
-                badgeContent={cartCount}
-                color="secondary"
-                invisible={cartCount === 0 ? true : false}
-              >
+              <Badge badgeContent={cartCount} color="secondary" showZero={true}>
                 <ShoppingCartImage />
               </Badge>
             </IconButton>
