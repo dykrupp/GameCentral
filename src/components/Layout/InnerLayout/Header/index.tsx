@@ -12,6 +12,7 @@ import { NavigationTabs } from './NavigationTabs/index';
 import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
 import { headerHeight } from '../constants';
 import { NavigationMenu } from './NavigationMenu';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 interface HeaderPropTypes {
   siteTitle?: string;
@@ -67,7 +68,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   }, [shoppingCart.cartCount]);
 
   useEffect(() => {
-    if (window && !isQueryReady) setIsQueryReady(true);
+    if (!isQueryReady && window) setIsQueryReady(true);
   });
 
   return (
@@ -84,7 +85,9 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
             </Tooltip>
           </TitleContainer>
           <NavigationContainer>
-            {!isQueryReady ? null : shouldRenderMenu ? (
+            {!isQueryReady ? (
+              <CircularProgress color="secondary" />
+            ) : shouldRenderMenu ? (
               <NavigationMenu />
             ) : (
               <NavigationTabs tabValue={tabValue} setTabValue={setTabValue} />
