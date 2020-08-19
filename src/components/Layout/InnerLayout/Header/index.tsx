@@ -58,12 +58,17 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const shoppingCart = useShoppingCart();
   const [currentCartCount, setCurrentCartCount] = useState(0);
   const [tabValue, setTabValue] = useState<false | number>(false);
+  const [isQueryReady, setIsQueryReady] = useState(false);
   const shouldRenderMenu = useMediaQuery('(max-width: 1300px)');
   const classes = useStyles();
 
   useEffect(() => {
     setCurrentCartCount(shoppingCart.cartCount);
   }, [shoppingCart.cartCount]);
+
+  useEffect(() => {
+    if (window && !isQueryReady) setIsQueryReady(true);
+  });
 
   return (
     <HeaderContainer>
@@ -79,7 +84,9 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
             </Tooltip>
           </TitleContainer>
           <NavigationContainer>
-            {shouldRenderMenu ? (
+            {!isQueryReady ? (
+              <h1>Loading</h1>
+            ) : shouldRenderMenu ? (
               <NavigationMenu />
             ) : (
               <NavigationTabs tabValue={tabValue} setTabValue={setTabValue} />
