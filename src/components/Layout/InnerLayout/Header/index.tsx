@@ -1,6 +1,6 @@
 import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Badge from '@material-ui/core/Badge';
@@ -43,12 +43,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
-  const { cartCount } = useShoppingCart();
+  const shoppingCart = useShoppingCart();
   const shouldRenderMenu = useMediaQuery('(max-width: 1300px)');
+  const [currentCartCount, setCurrentCartCount] = useState(0);
   const [tabValue, setTabValue] = useState<false | number>(false);
   const classes = useStyles();
 
-  console.log(cartCount);
+  useEffect(() => {
+    setCurrentCartCount(shoppingCart.cartCount);
+  }, [shoppingCart.cartCount]);
 
   return (
     <HeaderContainer>
@@ -66,7 +69,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
           )}
           <Tooltip title={!isCartDrawerOpen ? 'Open Cart' : 'Close Cart'}>
             <IconButton onClick={() => setIsCartDrawerOpen((state) => !state)}>
-              <Badge badgeContent={cartCount} color="secondary" showZero={true}>
+              <Badge badgeContent={currentCartCount} color="secondary">
                 <ShoppingCartImage />
               </Badge>
             </IconButton>

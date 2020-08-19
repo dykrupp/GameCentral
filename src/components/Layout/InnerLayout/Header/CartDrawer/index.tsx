@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import IconButton from '@material-ui/core/IconButton';
@@ -78,19 +78,22 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   setIsDrawerOpen,
 }) => {
   const classes = useStyles();
+  const shoppingCart = useShoppingCart();
+  const [currentCartCount, setCurrentCartCount] = useState(0);
 
   const {
     redirectToCheckout,
-    cartCount,
     clearCart,
     cartDetails,
     incrementItem,
     decrementItem,
     totalPrice,
     removeItem,
-  } = useShoppingCart();
+  } = shoppingCart;
 
-  console.log(cartCount);
+  useEffect(() => {
+    setCurrentCartCount(shoppingCart.cartCount);
+  }, [shoppingCart.cartCount]);
 
   return (
     <FixedWidthDrawer
@@ -124,7 +127,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         ))}
       </Grid>
       <CartCountContainer>
-        <ProductMetadata>{`Cart Count: ${cartCount}`}</ProductMetadata>
+        <ProductMetadata>{`Cart Count: ${currentCartCount}`}</ProductMetadata>
       </CartCountContainer>
       <OrderTotalContainer>
         <ProductMetadata>
@@ -149,7 +152,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             onClick={() => redirectToCheckout()}
             color="primary"
             variant="contained"
-            disabled={cartCount === 0}
+            disabled={currentCartCount === 0}
           >
             Checkout
           </Button>
