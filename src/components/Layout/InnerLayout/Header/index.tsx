@@ -93,7 +93,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
           </TitleContainer>
           <NavigationContainer>
             {!isQueryReady ? (
-              <NavSkeleton />
+              <NavSkeleton animation="wave" />
             ) : shouldRenderMenu ? (
               <NavigationMenu />
             ) : (
