@@ -4,6 +4,7 @@ import { CartProvider } from 'use-shopping-cart';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import InnerLayout from './InnerLayout';
+import ScrollToTop from 'react-scroll-to-top';
 
 const stripePromise = loadStripe(
   process.env.GATSBY_STRIPE_PUBLISHABLE_KEY
@@ -33,6 +34,7 @@ export default ({ children, location }) => (
     <ThemeProvider theme={createMuiTheme({ palette, typography })}>
       <CssBaseline />
         <InnerLayout>
+          <ScrollToTop smooth color="#673AB7"/>
           {children}
         </InnerLayout>
     </ThemeProvider>
