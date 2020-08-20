@@ -12,7 +12,7 @@ import { NavigationTabs } from './NavigationTabs/index';
 import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
 import { headerHeight } from '../constants';
 import { NavigationMenu } from './NavigationMenu';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 interface HeaderPropTypes {
   siteTitle?: string;
@@ -45,6 +45,13 @@ const NavigationContainer = styled.div`
 const TitleContainer = styled.div`
   display: flex;
   min-width: 180px;
+`;
+
+const NavSkeleton = styled(Skeleton)`
+  height: 64px;
+  display: flex;
+  flex: 1;
+  margin: 20px;
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -86,7 +93,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
           </TitleContainer>
           <NavigationContainer>
             {!isQueryReady ? (
-              <CircularProgress color="secondary" />
+              <NavSkeleton />
             ) : shouldRenderMenu ? (
               <NavigationMenu />
             ) : (
