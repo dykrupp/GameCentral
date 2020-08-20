@@ -17,17 +17,16 @@ const LayoutContainer = styled.div`
 const MainRoot = styled.div`
   display: flex;
   justify-content: center;
+  flex: 1;
 `;
 
 const MainContainer = styled.main`
   flex-grow: 1;
-  margin-top: 64px;
   max-width: 750px;
 `;
 
 const Footer = styled.footer`
   text-align: center;
-  margin-bottom: 20px;
 `;
 
 const InnerLayout: React.FC<InnerLayoutProps> = ({ children }) => {

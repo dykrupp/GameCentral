@@ -1,0 +1,15 @@
+html, body, #___gatsby, #gatsby-focus-wrapper {
+    height: 100%;
+}
+
+html {
+    font-family: 'Arial';
+}
+
+body {
+    margin: 0px;
+}
+
+div[role="group"][tabindex] {
+    height: 100%;
+}

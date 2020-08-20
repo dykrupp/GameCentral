@@ -8,7 +8,7 @@ import { CartDrawer } from './CartDrawer';
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import styled from 'styled-components';
-import { NavigationTabs } from './NavigationTabs/index';
+import { NavigationTabs } from './NavigationTabs';
 import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
 import { headerHeight } from '../constants';
 import { NavigationMenu } from './NavigationMenu';
@@ -20,6 +20,7 @@ interface HeaderPropTypes {
 
 const HeaderContainer = styled.div`
   display: flex;
+  min-height: ${headerHeight};
 `;
 
 const ToolBar = styled(Toolbar)`
@@ -48,7 +49,7 @@ const TitleContainer = styled.div`
 `;
 
 const NavSkeleton = styled(Skeleton)`
-  height: 64px;
+  height: ${headerHeight};
   display: flex;
   flex: 1;
   margin: 20px;

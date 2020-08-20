@@ -128,7 +128,7 @@ const ProductContainer: React.FC<ProductContainerProps> = ({ type }) => {
 };
 
 ProductContainer.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.any.isRequired,
 };
 
 export default ProductContainer;
