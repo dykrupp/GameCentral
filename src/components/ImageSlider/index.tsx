@@ -24,7 +24,7 @@ export const ImageSlider: React.FC = () => {
         cssModule={sliderStyles}
       >
         {pickedProductInfo.map((productInfo) => (
-          <div key={productInfo.sku} data-src={productInfo.image} />
+          <div key={productInfo.sku} data-src={productInfo.fluidObject.src} />
         ))}
       </AwesomeSlider>
     </ImageSliderContainer>
