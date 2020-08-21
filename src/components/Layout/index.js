@@ -15,7 +15,7 @@ const stripePromise = loadStripe(
 
 const palette = {
   primary: { main: '#673AB7' },
-  secondary: { main: '#1976D2' },
+  secondary: { main: '#03a9f4' },
 };
 
 const typography = {

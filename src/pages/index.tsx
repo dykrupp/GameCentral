@@ -5,6 +5,8 @@ import { ImageSlider } from '../components/ImageSlider';
 import { Button } from '@material-ui/core';
 import { useShoppingCart } from 'use-shopping-cart';
 import { ProductInfo } from '../utils/interfaces';
+import { MoreInfoAccordion } from '../components/MoreInfoAccordion';
+import Paper from '@material-ui/core/Paper';
 
 const HomeContainer = styled.div`
   display: flex;
@@ -16,9 +18,16 @@ const HomeContainer = styled.div`
 
 const AddToCartButton = styled(Button)`
   margin-top: 50px;
+  margin-bottom: 25px;
   margin-left: auto;
   margin-right: auto;
   width: 60%;
+`;
+
+const PaperSlider = styled(Paper)`
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
 `;
 
 //TODO -> Finish slider component here (Add Reviews accordion w/ data provided via metacritic api)
@@ -35,15 +44,18 @@ const IndexPage: React.FC = () => {
     <HomeContainer>
       <SEO title="Game Central Home" />
       <h1 style={{ textAlign: 'center' }}>Our Top Picks</h1>
-      <ImageSlider setCurrentProduct={setCurrentProduct} />
-      <AddToCartButton
-        disabled={currentProduct === null}
-        onClick={() => (currentProduct ? addItem(currentProduct) : null)}
-        color="primary"
-        variant="contained"
-      >
-        Add To Cart
-      </AddToCartButton>
+      <PaperSlider elevation={2}>
+        <ImageSlider setCurrentProduct={setCurrentProduct} />
+        <AddToCartButton
+          disabled={currentProduct === null}
+          onClick={() => (currentProduct ? addItem(currentProduct) : null)}
+          color="primary"
+          variant="contained"
+        >
+          Add To Cart
+        </AddToCartButton>
+        <MoreInfoAccordion productInfo={currentProduct} />
+      </PaperSlider>
     </HomeContainer>
   );
 };
