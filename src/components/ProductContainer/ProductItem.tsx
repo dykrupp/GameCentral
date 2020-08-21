@@ -1,14 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { FluidObject } from 'gatsby-image';
 import Img from 'gatsby-image';
 import { Button } from '@material-ui/core';
-import {
-  useShoppingCart,
-  Product,
-  formatCurrencyString,
-} from 'use-shopping-cart';
+import { ProductInfo } from '../../utils/interfaces';
+import { useShoppingCart, formatCurrencyString } from 'use-shopping-cart';
 
 const Container = styled.div`
   display: flex;
@@ -30,37 +26,39 @@ const TitleHeader = styled.h4`
   text-align: center;
 `;
 
-const ProductInfo = styled.p`
+const ProductText = styled.p`
   width: 100%;
   text-align: center;
   margin-bottom: 5px;
 `;
 
 interface ProductItemProps {
-  product: Product;
-  fluidImage: FluidObject;
+  productInfo: ProductInfo;
 }
 
-const ProductItem: React.FC<ProductItemProps> = ({ product, fluidImage }) => {
+const ProductItem: React.FC<ProductItemProps> = ({ productInfo }) => {
   const cart = useShoppingCart();
 
   return (
     <Container>
-      <TitleHeader>{product.name}</TitleHeader>
-      <Img style={{ width: '150px', margin: '0 auto' }} fluid={fluidImage} />
-      <ProductInfo>{product.description}</ProductInfo>
-      <ProductInfo style={{ margin: '5px' }}>
+      <TitleHeader>{productInfo.name}</TitleHeader>
+      <Img
+        style={{ width: '150px', margin: '0 auto' }}
+        fluid={productInfo.fluidObject}
+      />
+      <ProductText>{productInfo.description}</ProductText>
+      <ProductText style={{ margin: '5px' }}>
         Price:{' '}
         {formatCurrencyString({
-          value: product.price,
-          currency: product.currency,
+          value: productInfo.price,
+          currency: productInfo.currency,
           language: 'EN',
         })}
-      </ProductInfo>
+      </ProductText>
       <Button
         color="primary"
         variant="contained"
-        onClick={() => cart.addItem(product)}
+        onClick={() => cart.addItem(productInfo)}
       >
         ADD TO CART
       </Button>
@@ -69,8 +67,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, fluidImage }) => {
 };
 
 ProductItem.propTypes = {
-  product: PropTypes.any.isRequired,
-  fluidImage: PropTypes.any.isRequired,
+  productInfo: PropTypes.any.isRequired,
 };
 
 export default ProductItem;

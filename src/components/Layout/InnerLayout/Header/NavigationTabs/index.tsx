@@ -15,7 +15,7 @@ import {
   XboxUrl,
   PcUrl,
   VrUrl,
-} from '../../../../../utils/types';
+} from '../../../../../utils/constants';
 
 const ProductTabs = styled(Tabs)`
   margin-right: 155px;
