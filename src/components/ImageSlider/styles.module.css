@@ -10,11 +10,11 @@
     width: 100%;
     max-width: 100%;
     height: 100%;
-    --organic-arrow-thickness: 4px;
-    --organic-arrow-height: 40px;
+    --organic-arrow-thickness: 5px;
+    --organic-arrow-height: 50px;
     --slider-height-percentage: 60%;
-    --loader-bar-color: #673AB7;
-    --loader-bar-height: 6px;
+    --loader-bar-color: #9A6DEA;
+    --loader-bar-height: 5px;
     --control-button-width: 10%;
     --control-button-height: 25%;
     --control-button-opacity: 0.5;
@@ -24,7 +24,7 @@
     --slider-transition-duration: 575ms;
     --organic-arrow-color: #673AB7;
     --organic-arrow-border-radius: 0;
-    --control-bullet-color: #673AB7;
-    --control-bullet-active-color: #6a6a6a;
+    --control-bullet-color: #9A6DEA;
+    --control-bullet-active-color: #673AB7;
     --content-background-color: #2f2f2f;
 }

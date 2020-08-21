@@ -5,7 +5,7 @@ import { ImageSlider } from '../components/ImageSlider';
 
 const HomeContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   height: 100%;
   min-height: 550px;
