@@ -6,10 +6,10 @@ import sliderStyles from './styles.module.css';
 import styled from 'styled-components';
 import { usePickedProductInfo } from '../../utils/hooks/usePickedProductInfo';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { ProductInfo } from '../../utils/interfaces';
+import PropTypes from 'prop-types';
 
-//TODO -> add button functionality w/ cursor change
-
-export const sliderHeight = '450px';
+export const sliderHeight = '350px';
 
 const ImageSliderContainer = styled.div`
   height: ${sliderHeight};
@@ -20,12 +20,18 @@ const LoadingSkeleton = styled(Skeleton)`
   transform: none;
 `;
 
-export const ImageSlider: React.FC = () => {
+interface ImageSliderProps {
+  setCurrentProduct: (product: ProductInfo) => void;
+}
+
+export const ImageSlider: React.FC<ImageSliderProps> = ({
+  setCurrentProduct,
+}) => {
   const [isLoading, setIsLoading] = useState(true);
   const pickedProductInfo = usePickedProductInfo();
 
   return (
-    <div>
+    <>
       {isLoading && <LoadingSkeleton animation="wave" />}
       <ImageSliderContainer>
         <AwesomeSlider
@@ -34,13 +40,23 @@ export const ImageSlider: React.FC = () => {
           bullets={true}
           cssModule={sliderStyles}
           style={{ display: isLoading ? 'none' : 'block' }}
-          onFirstMount={() => setIsLoading(false)}
+          onFirstMount={(e) => {
+            setCurrentProduct(pickedProductInfo[e.currentIndex]);
+            setIsLoading(false);
+          }}
+          onTransitionRequest={(e) =>
+            setCurrentProduct(pickedProductInfo[e.nextIndex])
+          }
         >
           {pickedProductInfo.map((productInfo) => (
             <div key={productInfo.sku} data-src={productInfo.fluidObject.src} />
           ))}
         </AwesomeSlider>
       </ImageSliderContainer>
-    </div>
+    </>
   );
+};
+
+ImageSlider.propTypes = {
+  setCurrentProduct: PropTypes.func.isRequired,
 };

@@ -1,7 +1,7 @@
 .awssld__content > img, .awssld__content > video {
     object-fit: contain;
     width: 100%;
-    height: 450px;
+    height: 350px;
 }
 
 .awssld {
