@@ -20,7 +20,8 @@ const HomeContainer = styled.div`
 const HomeTitle = styled(Typography)`
   text-align: center;
   color: white;
-  margin: 20px;
+  margin-top: 20px;
+  margin-bottom: 5px;
 `;
 
 const AddToCartButton = styled(Button)`
@@ -36,6 +37,8 @@ const PaperSlider = styled(Paper)`
   display: flex;
   flex-direction: column;
   margin-bottom: 50px;
+  margin-left: 25px;
+  margin-right: 25px;
 `;
 
 //TODO -> Finish slider component here (Add Reviews accordion w/ data provided via metacritic api)
