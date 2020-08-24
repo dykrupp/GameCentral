@@ -91,6 +91,8 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
     null
   );
 
+  console.log(process.env.METACRITIC_API_KEY);
+
   useEffect(() => {
     if (!productInfo || !process.env.METACRITIC_API_KEY) return;
 
@@ -118,7 +120,7 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
         console.log(err);
       })
       .finally(() => setIsLoading(false));
-  }, [productInfo]);
+  }, [productInfo, process.env]);
 
   if (!productInfo) return null;
   return (
