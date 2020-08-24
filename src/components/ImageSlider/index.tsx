@@ -11,6 +11,10 @@ import PropTypes from 'prop-types';
 
 export const sliderHeight = '350px';
 
+const RootContainer = styled.div`
+  margin-bottom: 50px;
+`;
+
 const ImageSliderContainer = styled.div`
   height: ${sliderHeight};
 `;
@@ -33,7 +37,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   const pickedProductInfo = usePickedProductInfo();
 
   return (
-    <>
+    <RootContainer>
       {isLoading && <LoadingSkeleton animation="wave" />}
       <ImageSliderContainer style={{ display: isLoading ? 'none' : 'block' }}>
         <AwesomeSlider
@@ -54,7 +58,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
           ))}
         </AwesomeSlider>
       </ImageSliderContainer>
-    </>
+    </RootContainer>
   );
 };
 

@@ -25,11 +25,11 @@ const HomeTitle = styled(Typography)`
 `;
 
 const AddToCartButton = styled(Button)`
-  margin-top: 50px;
-  margin-bottom: 25px;
   margin-left: auto;
   margin-right: auto;
-  width: 60%;
+  margin-top: 25px;
+  width: 100%;
+  height: 48px;
 `;
 
 const PaperSlider = styled(Paper)`
@@ -41,7 +41,6 @@ const PaperSlider = styled(Paper)`
   margin-right: 25px;
 `;
 
-//TODO -> Finish slider component here (Add Reviews accordion w/ data provided via metacritic api)
 //TODO -> Further image optimization
 //TODO -> Setup netlify deploy hook based on updating products via 'stripe dashboard'
 //TODO -> Perhaps include some type of search bar to quickly find a specific product
@@ -57,6 +56,7 @@ const IndexPage: React.FC = () => {
       <HomeTitle variant="h4">Our Top Picks</HomeTitle>
       <PaperSlider elevation={3}>
         <ImageSlider setCurrentProduct={setCurrentProduct} />
+        <MoreInfoAccordion productInfo={currentProduct} />
         <AddToCartButton
           disabled={currentProduct === null}
           onClick={() => (currentProduct ? addItem(currentProduct) : null)}
@@ -65,7 +65,6 @@ const IndexPage: React.FC = () => {
         >
           Add To Cart
         </AddToCartButton>
-        <MoreInfoAccordion productInfo={currentProduct} />
       </PaperSlider>
     </HomeContainer>
   );
