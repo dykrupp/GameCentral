@@ -18,15 +18,22 @@ const MainRoot = styled.div`
   display: flex;
   justify-content: center;
   flex: 1;
+  background-color: #21d4fd;
+  background-image: linear-gradient(325deg, #21d4fd 0%, #b721ff 100%);
+  flex-direction: column;
+  align-items: center;
 `;
 
 const MainContainer = styled.main`
   flex-grow: 1;
   max-width: 750px;
+  margin-left: 25px;
+  margin-right: 25px;
 `;
 
 const Footer = styled.footer`
   text-align: center;
+  color: white;
 `;
 
 const InnerLayout: React.FC<InnerLayoutProps> = ({ children }) => {
@@ -45,8 +52,8 @@ const InnerLayout: React.FC<InnerLayoutProps> = ({ children }) => {
       <Header siteTitle={data.site.siteMetadata.title} />
       <MainRoot>
         <MainContainer>{children}</MainContainer>
+        <Footer>Made with ❤️ by Dylan Krupp, August 2020</Footer>
       </MainRoot>
-      <Footer>Made with ❤️ by Dylan Krupp, August 2020</Footer>
     </LayoutContainer>
   );
 };

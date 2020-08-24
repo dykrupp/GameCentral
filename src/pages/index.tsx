@@ -16,6 +16,11 @@ const HomeContainer = styled.div`
   min-height: 550px;
 `;
 
+const HomeTitle = styled.h1`
+  text-align: center;
+  color: white;
+`;
+
 const AddToCartButton = styled(Button)`
   margin-top: 50px;
   margin-bottom: 25px;
@@ -28,6 +33,7 @@ const PaperSlider = styled(Paper)`
   padding: 25px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 50px;
 `;
 
 //TODO -> Finish slider component here (Add Reviews accordion w/ data provided via metacritic api)
@@ -43,8 +49,8 @@ const IndexPage: React.FC = () => {
   return (
     <HomeContainer>
       <SEO title="Game Central Home" />
-      <h1 style={{ textAlign: 'center' }}>Our Top Picks</h1>
-      <PaperSlider elevation={2}>
+      <HomeTitle>Our Top Picks</HomeTitle>
+      <PaperSlider elevation={3}>
         <ImageSlider setCurrentProduct={setCurrentProduct} />
         <AddToCartButton
           disabled={currentProduct === null}
