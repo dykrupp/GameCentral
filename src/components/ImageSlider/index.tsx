@@ -24,6 +24,8 @@ interface ImageSliderProps {
   setCurrentProduct: (product: ProductInfo) => void;
 }
 
+//TODO -> Use autoplay slider instead?
+
 export const ImageSlider: React.FC<ImageSliderProps> = ({
   setCurrentProduct,
 }) => {

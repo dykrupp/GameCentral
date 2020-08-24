@@ -4,7 +4,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { Tooltip, Button, Grid } from '@material-ui/core';
+import { Tooltip, Button, Grid, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import CloseIcon from '@material-ui/icons/Close';
@@ -19,6 +19,7 @@ import {
 } from 'use-shopping-cart';
 
 const drawerWidth = '350px';
+const borderBottom = `2px solid #03a9f4`;
 
 const FixedWidthDrawer = styled(Drawer)`
   width: ${drawerWidth};
@@ -27,16 +28,44 @@ const FixedWidthDrawer = styled(Drawer)`
 
 const HeaderContainer = styled(Grid)`
   margin-top: ${headerHeight};
+  border-bottom: ${borderBottom};
+  align-items: center;
+`;
+
+const TotalPrice = styled(Typography)`
+  margin-left: 48px;
+  font-weight: bold;
 `;
 
 const CartItemContainer = styled(Grid)`
   width: 100%;
-  border-bottom: 2px solid black;
+  border-bottom: ${borderBottom};
+`;
+
+const ButtonContainer = styled(Grid)`
+  min-height: 150px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ClearCartButton = styled(Button)`
+  width: 100%;
+  margin-bottom: 5px;
+`;
+
+const CheckoutButton = styled(Button)`
+  width: 100%;
   margin-top: 5px;
 `;
 
-const ProductMetadata = styled.p`
+const ProductMetadata = styled(Typography)`
   text-align: center;
+  margin-bottom: 5px;
+`;
+
+const Description = styled(Typography)`
+  text-align: center;
+  margin: 10px;
 `;
 
 const CenteredDiv = styled.div`
@@ -44,10 +73,8 @@ const CenteredDiv = styled.div`
   display: flex;
 `;
 
-const ButtonContainer = styled(Grid)`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+const CartItemImage = styled.img`
+  width: 125px;
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -58,15 +85,6 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
   },
 }));
-
-const CartCountContainer = styled(Grid)`
-  margin-top: 20px;
-`;
-
-const OrderTotalContainer = styled(Grid)`
-  border-bottom: 2px solid black;
-  margin-bottom: 20px;
-`;
 
 interface CartDrawerProps {
   isDrawerOpen: boolean;
@@ -104,16 +122,20 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         paper: classes.drawerPaper,
       }}
     >
-      <HeaderContainer container direction="column">
-        <Grid item>
-          <Tooltip title="Close Cart">
-            <IconButton onClick={(): void => setIsDrawerOpen(false)}>
-              <ChevronRightIcon color="primary" />
-            </IconButton>
-          </Tooltip>
-        </Grid>
+      <HeaderContainer container>
+        <Tooltip title="Close Cart">
+          <IconButton onClick={(): void => setIsDrawerOpen(false)}>
+            <ChevronRightIcon color="primary" />
+          </IconButton>
+        </Tooltip>
+        <TotalPrice>
+          {`Order Total: ${formatCurrencyString({
+            value: totalPrice,
+            currency: 'USD',
+          })}`}
+        </TotalPrice>
       </HeaderContainer>
-      <Grid item container>
+      <Grid container>
         {Object.keys(cartDetails).map((key, index) => (
           <CartItem
             key={key}
@@ -126,38 +148,25 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           />
         ))}
       </Grid>
-      <CartCountContainer>
-        <ProductMetadata>{`Cart Count: ${currentCartCount}`}</ProductMetadata>
-      </CartCountContainer>
-      <OrderTotalContainer>
-        <ProductMetadata>
-          {`Order Total: ${formatCurrencyString({
-            value: totalPrice,
-            currency: 'USD',
-          })}`}
-        </ProductMetadata>
-      </OrderTotalContainer>
-      <div>
-        <ButtonContainer item>
-          <Button
+      <ButtonContainer container direction="column">
+        <div>
+          <ClearCartButton
             onClick={() => clearCart()}
             color="primary"
             variant="contained"
           >
             Clear Cart
-          </Button>
-        </ButtonContainer>
-        <ButtonContainer item>
-          <Button
+          </ClearCartButton>
+          <CheckoutButton
             onClick={() => redirectToCheckout()}
             color="primary"
             variant="contained"
             disabled={currentCartCount === 0}
           >
             Checkout
-          </Button>
-        </ButtonContainer>
-      </div>
+          </CheckoutButton>
+        </div>
+      </ButtonContainer>
     </FixedWidthDrawer>
   );
 };
@@ -194,16 +203,12 @@ const CartItem: React.FC<CartItemProps> = ({
         </Backdrop>
       )}
       <CartItemContainer item style={isLoading ? { display: 'none' } : {}}>
-        <ProductMetadata>{entry.name}</ProductMetadata>
+        <ProductMetadata style={{ margin: '5px' }}>
+          {entry.name}
+        </ProductMetadata>
         <CenteredDiv>
-          <img
-            style={{ width: '125px' }}
-            src={entry.image}
-            onLoad={() => setIsLoading(false)}
-          />
+          <CartItemImage src={entry.image} onLoad={() => setIsLoading(false)} />
         </CenteredDiv>
-        <ProductMetadata>{`Description: ${entry.description}`}</ProductMetadata>
-        <ProductMetadata>{`Quantity: ${entry.quantity}`}</ProductMetadata>
         <CenteredDiv>
           <Tooltip title="Increment Quantity">
             <IconButton onClick={() => incrementItem(keyProp)}>
@@ -221,6 +226,8 @@ const CartItem: React.FC<CartItemProps> = ({
             </IconButton>
           </Tooltip>
         </CenteredDiv>
+        <ProductMetadata>{`Quantity: ${entry.quantity}`}</ProductMetadata>
+        <Description>{`Description: ${entry.description}`}</Description>
         <ProductMetadata>{`Unit Price: ${entry.formattedValue}`}</ProductMetadata>
       </CartItemContainer>
     </div>
