@@ -33,13 +33,12 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   return (
     <>
       {isLoading && <LoadingSkeleton animation="wave" />}
-      <ImageSliderContainer>
+      <ImageSliderContainer style={{ display: isLoading ? 'none' : 'block' }}>
         <AwesomeSlider
           infinite={true}
           animation="cubeAnimation"
           bullets={true}
           cssModule={sliderStyles}
-          style={{ display: isLoading ? 'none' : 'block' }}
           onFirstMount={(e) => {
             setCurrentProduct(pickedProductInfo[e.currentIndex]);
             setIsLoading(false);
