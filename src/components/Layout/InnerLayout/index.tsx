@@ -29,6 +29,7 @@ const MainContainer = styled.main`
   max-width: 750px;
   margin-left: 25px;
   margin-right: 25px;
+  width: 100%;
 `;
 
 const Footer = styled.footer`
