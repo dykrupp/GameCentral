@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -8,6 +8,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ProductInfo } from '../../utils/interfaces';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { ProductType } from '../../utils/constants';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const AccordionProductDetails = styled(AccordionDetails)`
   text-align: center;
@@ -19,8 +21,12 @@ const TitleText = styled(Typography)`
   margin-top: -15px;
 `;
 
-const PlatformText = styled(Typography)`
+const MoreInfoText = styled(Typography)`
   margin-bottom: 10px;
+`;
+
+const MoreInfoSkeleton = styled(Skeleton)`
+  height: 75px;
 `;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,7 +49,34 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-//TODO -> Get MetaCritic informatino via 'chickenCoop' api
+const toApiPlatformFormat = (type: string): string => {
+  switch (type) {
+    case ProductType.PS4:
+      return 'playstation-4';
+    case ProductType.Nintendo:
+      return 'switch';
+    case ProductType.PC:
+    case ProductType.VR:
+      return 'pc';
+    case ProductType.Xbox:
+      return 'XONE';
+    default:
+      return 'UNKNOWN';
+  }
+};
+
+interface MetacriticInfo {
+  availableOn: [string];
+  description: string;
+  developer: string;
+  genre: [string];
+  image: string;
+  publisher: [string];
+  rating: string;
+  releaseDate: string;
+  score: number;
+  title: string;
+}
 
 interface MoreInfoAccordionProps {
   productInfo: ProductInfo | null;
@@ -53,27 +86,116 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
   productInfo,
 }) => {
   const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(true);
+  const [metaCriticInfo, setMetaCriticInfo] = useState<null | MetacriticInfo>(
+    null
+  );
 
+  useEffect(() => {
+    if (!productInfo) return;
+
+    setIsLoading(true);
+
+    fetch(
+      `https://chicken-coop.p.rapidapi.com/games/${
+        productInfo.name
+      }?platform=${toApiPlatformFormat(productInfo.type)}`,
+      {
+        method: 'GET',
+        headers: {
+          'x-rapidapi-host': 'chicken-coop.p.rapidapi.com',
+          'x-rapidapi-key':
+            '5bee6e897cmsh59c6c9ef954dc56p166ff0jsn98da7e2ab9f2',
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result !== 'No result')
+          setMetaCriticInfo(data.result as MetacriticInfo);
+        else setMetaCriticInfo(null);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => setIsLoading(false));
+  }, [productInfo]);
+
+  if (!productInfo) return null;
   return (
-    <Accordion className={classes.accordion} disabled={productInfo === null}>
+    <Accordion className={classes.accordion}>
       <AccordionSummary
         className={classes.summary}
         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
       >
         <Typography className={classes.heading}>MORE INFORMATION</Typography>
       </AccordionSummary>
-      <AccordionProductDetails>
-        <TitleText>{productInfo ? `Title: ${productInfo.name}` : ''}</TitleText>
-        <PlatformText>
-          {productInfo ? `Platform: ${productInfo.type}` : ''}
-        </PlatformText>
-        <Typography>{`Description: `}</Typography>
-        <Typography>{productInfo ? productInfo.description : ''}</Typography>
-      </AccordionProductDetails>
+      {isLoading ? (
+        <SkeltonDetails />
+      ) : metaCriticInfo !== null ? (
+        <MetacriticDetails
+          description={productInfo.description ? productInfo.description : ''}
+          metacriticInfo={metaCriticInfo}
+          platform={productInfo.type}
+        />
+      ) : (
+        <ProductDetails productInfo={productInfo} />
+      )}
     </Accordion>
   );
 };
 
 MoreInfoAccordion.propTypes = {
   productInfo: PropTypes.any,
+};
+
+const SkeltonDetails = () => (
+  <AccordionProductDetails>
+    <MoreInfoSkeleton />
+  </AccordionProductDetails>
+);
+
+const ProductDetails: React.FC<MoreInfoAccordionProps> = ({ productInfo }) => (
+  <AccordionProductDetails>
+    <TitleText>{productInfo ? `Title: ${productInfo.name}` : ''}</TitleText>
+    <Typography>{`Description: `}</Typography>
+    <Typography>{productInfo ? productInfo.description : ''}</Typography>
+    <MoreInfoText>
+      {productInfo ? `Platform: ${productInfo.type}` : ''}
+    </MoreInfoText>
+  </AccordionProductDetails>
+);
+
+ProductDetails.propTypes = {
+  productInfo: PropTypes.any,
+};
+
+interface MetacriticDetailsProps {
+  metacriticInfo: MetacriticInfo;
+  description: string;
+  platform: string;
+}
+
+const MetacriticDetails: React.FC<MetacriticDetailsProps> = ({
+  metacriticInfo,
+  description,
+  platform,
+}) => (
+  <AccordionProductDetails>
+    <TitleText>{`Title: ${metacriticInfo.title}`}</TitleText>
+    <Typography>{`Description: `}</Typography>
+    <MoreInfoText>{description}</MoreInfoText>
+    <MoreInfoText>{`Platform: ${platform}`}</MoreInfoText>
+    <MoreInfoText>{`Developer: ${metacriticInfo.developer}`}</MoreInfoText>
+    <MoreInfoText>{`Genres: ${metacriticInfo.genre.join(', ')}`}</MoreInfoText>
+    <MoreInfoText>{`Release Date: ${metacriticInfo.releaseDate}`}</MoreInfoText>
+    <MoreInfoText>{`Metacritic Score: ${metacriticInfo.score}`}</MoreInfoText>
+    <MoreInfoText>{`Rating: ${metacriticInfo.rating}`}</MoreInfoText>
+  </AccordionProductDetails>
+);
+
+MetacriticDetails.propTypes = {
+  metacriticInfo: PropTypes.any.isRequired,
+  description: PropTypes.string.isRequired,
+  platform: PropTypes.string.isRequired,
 };
