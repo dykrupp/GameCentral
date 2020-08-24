@@ -26,7 +26,7 @@ const MainRoot = styled.div`
 
 const MainContainer = styled.main`
   flex-grow: 1;
-  width: 750px;
+  max-width: 750px;
   margin-left: 25px;
   margin-right: 25px;
 `;

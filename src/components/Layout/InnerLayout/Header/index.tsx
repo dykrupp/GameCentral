@@ -9,7 +9,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import styled from 'styled-components';
 import { NavigationTabs } from './NavigationTabs';
-import { IconButton, Tooltip, AppBar, Toolbar } from '@material-ui/core';
+import {
+  IconButton,
+  Tooltip,
+  AppBar,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import { headerHeight } from '../constants';
 import { NavigationMenu } from './NavigationMenu';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -85,11 +91,11 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
         <ToolBar>
           <TitleContainer>
             <Tooltip title="Home">
-              <h1>
+              <Typography variant="h4">
                 <TitleLink to="/" onClick={() => setTabValue(false)}>
                   {siteTitle}
                 </TitleLink>
-              </h1>
+              </Typography>
             </Tooltip>
           </TitleContainer>
           <NavigationContainer>

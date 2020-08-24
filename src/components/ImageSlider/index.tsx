@@ -45,8 +45,8 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
             setCurrentProduct(pickedProductInfo[e.currentIndex]);
             setIsLoading(false);
           }}
-          onTransitionRequest={(e) =>
-            setCurrentProduct(pickedProductInfo[e.nextIndex])
+          onTransitionEnd={(e) =>
+            setCurrentProduct(pickedProductInfo[e.currentIndex])
           }
         >
           {pickedProductInfo.map((productInfo) => (

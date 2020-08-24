@@ -7,6 +7,21 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ProductInfo } from '../../utils/interfaces';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const AccordionProductDetails = styled(AccordionDetails)`
+  text-align: center;
+  flex-direction: column;
+`;
+
+const TitleText = styled(Typography)`
+  margin-bottom: 10px;
+  margin-top: -15px;
+`;
+
+const PlatformText = styled(Typography)`
+  margin-bottom: 10px;
+`;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
     summary: {
       '& .MuiAccordionSummary-content': {
         justifyContent: 'center',
+        marginLeft: '30px',
       },
     },
   })
@@ -46,16 +62,14 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
       >
         <Typography className={classes.heading}>MORE INFORMATION</Typography>
       </AccordionSummary>
-      <AccordionDetails style={{ flexDirection: 'column' }}>
-        <Typography style={{ marginBottom: '10px' }}>
-          {productInfo ? `Name: ${productInfo.name}` : ''}
-        </Typography>
-        <Typography style={{ marginBottom: '10px' }}>
+      <AccordionProductDetails>
+        <TitleText>{productInfo ? `Title: ${productInfo.name}` : ''}</TitleText>
+        <PlatformText>
           {productInfo ? `Platform: ${productInfo.type}` : ''}
-        </Typography>
+        </PlatformText>
         <Typography>{`Description: `}</Typography>
         <Typography>{productInfo ? productInfo.description : ''}</Typography>
-      </AccordionDetails>
+      </AccordionProductDetails>
     </Accordion>
   );
 };

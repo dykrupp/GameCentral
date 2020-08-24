@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SEO from '../components/SEO';
 import styled from 'styled-components';
 import { ImageSlider } from '../components/ImageSlider';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { useShoppingCart } from 'use-shopping-cart';
 import { ProductInfo } from '../utils/interfaces';
 import { MoreInfoAccordion } from '../components/MoreInfoAccordion';
@@ -14,11 +14,13 @@ const HomeContainer = styled.div`
   flex-direction: column;
   height: 100%;
   min-height: 550px;
+  width: 100%;
 `;
 
-const HomeTitle = styled.h1`
+const HomeTitle = styled(Typography)`
   text-align: center;
   color: white;
+  margin: 20px;
 `;
 
 const AddToCartButton = styled(Button)`
@@ -48,8 +50,8 @@ const IndexPage: React.FC = () => {
 
   return (
     <HomeContainer>
-      <SEO title="Game Central Home" />
-      <HomeTitle>Our Top Picks</HomeTitle>
+      <SEO title="GameCentral Home" />
+      <HomeTitle variant="h4">Our Top Picks</HomeTitle>
       <PaperSlider elevation={3}>
         <ImageSlider setCurrentProduct={setCurrentProduct} />
         <AddToCartButton

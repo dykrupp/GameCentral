@@ -4,7 +4,7 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    title: `Game Central`,
+    title: `GameCentral`,
     description: `Find the best deals on the hottest video games`,
     author: `Dylan Krupp`,
   },
