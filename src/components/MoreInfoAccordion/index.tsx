@@ -94,7 +94,11 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
   console.log(process.env.GATSBY_METACRITIC_API_KEY);
 
   useEffect(() => {
+    console.log(process.env.GATSBY_METACRITIC_API_KEY);
+
     if (!productInfo || !process.env.GATSBY_METACRITIC_API_KEY) return;
+
+    console.log('hit');
 
     setIsLoading(true);
 
@@ -112,6 +116,7 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (data.result !== 'No result')
           setMetaCriticInfo(data.result as MetacriticInfo);
         else setMetaCriticInfo(null);
@@ -120,7 +125,7 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
         console.log(err);
       })
       .finally(() => setIsLoading(false));
-  }, [productInfo, process.env]);
+  }, [productInfo, process.env.GATSBY_METACRITIC_API_KEY]);
 
   if (!productInfo) return null;
   return (
