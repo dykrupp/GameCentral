@@ -91,10 +91,10 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
     null
   );
 
-  console.log(process.env.METACRITIC_API_KEY);
+  console.log(process.env.GATSBY_METACRITIC_API_KEY);
 
   useEffect(() => {
-    if (!productInfo || !process.env.METACRITIC_API_KEY) return;
+    if (!productInfo || !process.env.GATSBY_METACRITIC_API_KEY) return;
 
     setIsLoading(true);
 
@@ -106,7 +106,7 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
         method: 'GET',
         headers: {
           'x-rapidapi-host': 'chicken-coop.p.rapidapi.com',
-          'x-rapidapi-key': process.env.METACRITIC_API_KEY,
+          'x-rapidapi-key': process.env.GATSBY_METACRITIC_API_KEY,
         },
       }
     )
