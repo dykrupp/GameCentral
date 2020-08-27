@@ -1,13 +1,13 @@
 import React from 'react';
 import { Tabs, Tab } from '@material-ui/core';
-import ps4Icon from '../../../../../images/ps4.png';
-import xboxIcon from '../../../../../images/xbox.png';
-import nintendoIcon from '../../../../../images/nintendo.png';
-import pcIcon from '../../../../../images/pc.png';
-import vrIcon from '../../../../../images/vr.png';
+import ps4Icon from '../../../../../../images/ps4.png';
+import xboxIcon from '../../../../../../images/xbox.png';
+import nintendoIcon from '../../../../../../images/nintendo.png';
+import pcIcon from '../../../../../../images/pc.png';
+import vrIcon from '../../../../../../images/vr.png';
 import styled from 'styled-components';
 import { navigate } from 'gatsby';
-import { headerHeight } from '../../constants';
+import { headerHeight } from '../../../constants';
 import PropTypes from 'prop-types';
 import {
   Ps4Url,
@@ -15,10 +15,10 @@ import {
   XboxUrl,
   PcUrl,
   VrUrl,
-} from '../../../../../utils/constants';
+} from '../../../../../../utils/constants';
 
 const ProductTabs = styled(Tabs)`
-  margin-right: 155px;
+  margin-left: 120px;
 `;
 
 const StyledTab = styled(Tab)`

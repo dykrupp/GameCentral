@@ -5,13 +5,14 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { IconButton } from '@material-ui/core';
 import styled from 'styled-components';
 import { navigate } from 'gatsby';
+import { HomeUrl } from '../../../../../../utils/constants';
 import {
   Ps4Url,
   NintendoUrl,
   XboxUrl,
   PcUrl,
   VrUrl,
-} from '../../../../../utils/constants';
+} from '../../../../../../utils/constants';
 
 const MenuImage = styled(MenuIcon)`
   fill: white;
@@ -39,6 +40,14 @@ export const NavigationMenu: React.FC = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            navigate(HomeUrl);
+          }}
+        >
+          Home
+        </MenuItem>
         <MenuItem
           onClick={() => {
             handleClose();

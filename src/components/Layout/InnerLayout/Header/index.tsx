@@ -6,9 +6,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Badge from '@material-ui/core/Badge';
 import { CartDrawer } from './CartDrawer';
 import { makeStyles } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import styled from 'styled-components';
-import { NavigationTabs } from './NavigationTabs';
 import {
   IconButton,
   Tooltip,
@@ -17,8 +15,9 @@ import {
   Typography,
 } from '@material-ui/core';
 import { headerHeight } from '../constants';
-import { NavigationMenu } from './NavigationMenu';
-import Skeleton from '@material-ui/lab/Skeleton';
+import { useMobileComponents } from '../../../../utils/hooks/useMobileComponents';
+import { SearchContainer } from './SearchContainer';
+import { Navigation } from './Navigation';
 
 interface HeaderPropTypes {
   siteTitle?: string;
@@ -31,6 +30,7 @@ const HeaderContainer = styled.div`
 
 const ToolBar = styled(Toolbar)`
   justify-content: space-between;
+  min-height: ${headerHeight};
 `;
 
 const TitleLink = styled(Link)`
@@ -43,22 +43,9 @@ const ShoppingCartImage = styled(ShoppingCartIcon)`
   fill: white;
 `;
 
-const NavigationContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-`;
-
 const TitleContainer = styled.div`
   display: flex;
   min-width: 180px;
-`;
-
-const NavSkeleton = styled(Skeleton)`
-  height: ${headerHeight};
-  display: flex;
-  flex: 1;
-  margin: 20px;
 `;
 
 const useStyles = makeStyles((theme) => ({
@@ -74,7 +61,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
   const [currentCartCount, setCurrentCartCount] = useState(0);
   const [tabValue, setTabValue] = useState<false | number>(false);
   const [isQueryReady, setIsQueryReady] = useState(false);
-  const shouldRenderMenu = useMediaQuery('(max-width: 1300px)');
+  const shouldUseMobileComponents = useMobileComponents();
   const classes = useStyles();
 
   useEffect(() => {
@@ -89,24 +76,26 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
     <HeaderContainer>
       <AppBar position="fixed" className={classes.appBar}>
         <ToolBar>
-          <TitleContainer>
-            <Tooltip title="Home">
-              <Typography variant="h4">
-                <TitleLink to="/" onClick={() => setTabValue(false)}>
-                  {siteTitle}
-                </TitleLink>
-              </Typography>
-            </Tooltip>
-          </TitleContainer>
-          <NavigationContainer>
-            {!isQueryReady ? (
-              <NavSkeleton animation="wave" />
-            ) : shouldRenderMenu ? (
-              <NavigationMenu />
-            ) : (
-              <NavigationTabs tabValue={tabValue} setTabValue={setTabValue} />
-            )}
-          </NavigationContainer>
+          {!shouldUseMobileComponents && (
+            <TitleContainer>
+              <Tooltip title="Home">
+                <Typography variant="h4">
+                  <TitleLink to="/" onClick={() => setTabValue(false)}>
+                    {siteTitle}
+                  </TitleLink>
+                </Typography>
+              </Tooltip>
+            </TitleContainer>
+          )}
+          <Navigation
+            isQueryReady={isQueryReady}
+            tabValue={tabValue}
+            setTabValue={setTabValue}
+            shouldUseMobileComponent={shouldUseMobileComponents}
+          />
+          <SearchContainer
+            shouldUseMobileComponents={shouldUseMobileComponents}
+          />
           <Tooltip title={!isCartDrawerOpen ? 'Open Cart' : 'Close Cart'}>
             <IconButton onClick={() => setIsCartDrawerOpen((state) => !state)}>
               <Badge badgeContent={currentCartCount} color="secondary">
