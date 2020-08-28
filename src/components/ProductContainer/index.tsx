@@ -12,13 +12,13 @@ const Container = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 1rem 0 1rem 0;
-  height: 100%;
 `;
 
 const NotFoundHeading = styled(Typography)`
   color: white;
   margin: 0 auto;
-  align-self: center;
+  margin-top: 350px;
+  margin-bottom: 200px;
 `;
 
 interface ProductContainerProps {

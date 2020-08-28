@@ -94,6 +94,9 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
   useEffect(() => {
     if (!productInfo || !process.env.GATSBY_METACRITIC_API_KEY) return;
 
+    //needed to prevent errors being thrown if components is unmounted while in the process of 'fetching'
+    let didCancel = false;
+
     setIsLoading(true);
 
     fetch(
@@ -110,6 +113,8 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
     )
       .then((response) => response.json())
       .then((data) => {
+        if (didCancel) return;
+
         if (data.result !== 'No result')
           setMetaCriticInfo(data.result as MetacriticInfo);
         else setMetaCriticInfo(null);
@@ -117,7 +122,13 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        if (!didCancel) setIsLoading(false);
+      });
+
+    return () => {
+      didCancel = true;
+    };
   }, [productInfo, process.env.GATSBY_METACRITIC_API_KEY]);
 
   if (!productInfo) return null;
