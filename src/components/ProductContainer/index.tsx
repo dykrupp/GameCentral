@@ -36,6 +36,8 @@ const ProductContainer: React.FC<ProductContainerProps> = ({ type, title }) => {
       )
     : productInfo;
 
+  productInfo.sort((a, b) => (a.name > b.name ? 1 : -1));
+
   return (
     <Container>
       {productInfo.length > 0 && title !== '' ? (
