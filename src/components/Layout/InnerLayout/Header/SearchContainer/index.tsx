@@ -55,6 +55,7 @@ const SearchInput = styled.input`
   border-radius: 5px;
   height: 35px;
   width: 175px;
+  outline: none;
 `;
 
 interface SearchProps {
