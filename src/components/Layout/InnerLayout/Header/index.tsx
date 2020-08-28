@@ -94,6 +94,7 @@ const Header: React.FC<HeaderPropTypes> = ({ siteTitle }) => {
             shouldUseMobileComponent={shouldUseMobileComponents}
           />
           <SearchContainer
+            setTabValue={setTabValue}
             shouldUseMobileComponents={shouldUseMobileComponents}
           />
           <Tooltip title={!isCartDrawerOpen ? 'Open Cart' : 'Close Cart'}>

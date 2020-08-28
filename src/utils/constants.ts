@@ -4,6 +4,7 @@ export enum ProductType {
   Nintendo = 'Nintendo',
   PC = 'PC',
   VR = 'VR',
+  ANY = 'ANY',
 }
 
 export const HomeUrl = '/';
@@ -12,3 +13,4 @@ export const NintendoUrl = '/nintendo';
 export const XboxUrl = '/xbox';
 export const PcUrl = '/pc';
 export const VrUrl = '/vr';
+export const ProductSearchUrl = '/product-search';
