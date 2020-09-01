@@ -36,7 +36,7 @@ const PaperSlider = styled(Paper)`
   padding: 25px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   margin-left: 25px;
   margin-right: 25px;
 `;
