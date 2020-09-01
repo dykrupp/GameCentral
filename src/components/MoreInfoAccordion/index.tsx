@@ -165,16 +165,19 @@ const SkeltonDetails = () => (
   </AccordionProductDetails>
 );
 
-const ProductDetails: React.FC<MoreInfoAccordionProps> = ({ productInfo }) => (
-  <AccordionProductDetails>
-    <TitleText>{productInfo ? `Title: ${productInfo.name}` : ''}</TitleText>
-    <Typography>{`Description: `}</Typography>
-    <Typography>{productInfo ? productInfo.description : ''}</Typography>
-    <MoreInfoText>
-      {productInfo ? `Platform: ${productInfo.type}` : ''}
-    </MoreInfoText>
-  </AccordionProductDetails>
-);
+const ProductDetails: React.FC<MoreInfoAccordionProps> = ({ productInfo }) => {
+  if (!productInfo) return null;
+  return (
+    <AccordionProductDetails>
+      <TitleText>{`Title: ${productInfo.name}`}</TitleText>
+      <Typography>{`Description: `}</Typography>
+      <Typography>{productInfo.description}</Typography>
+      <MoreInfoText>
+        {productInfo ? `Platform: ${productInfo.type}` : ''}
+      </MoreInfoText>
+    </AccordionProductDetails>
+  );
+};
 
 ProductDetails.propTypes = {
   productInfo: PropTypes.any,

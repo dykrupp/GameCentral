@@ -196,7 +196,7 @@ const CartItem: React.FC<CartItemProps> = ({
   const classes = useStyles();
 
   return (
-    <div>
+    <>
       {isLoading && (
         <Backdrop className={classes.backdrop} open={isLoading}>
           <CircularProgress />
@@ -230,7 +230,7 @@ const CartItem: React.FC<CartItemProps> = ({
         <Description>{`Description: ${entry.description}`}</Description>
         <ProductMetadata>{`Unit Price: ${entry.formattedValue}`}</ProductMetadata>
       </CartItemContainer>
-    </div>
+    </>
   );
 };
 

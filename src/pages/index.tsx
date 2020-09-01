@@ -43,7 +43,6 @@ const PaperSlider = styled(Paper)`
 
 //TODO -> Further image optimization
 //TODO -> Setup netlify deploy hook based on updating products via 'stripe dashboard'
-//TODO -> Perhaps include some type of search bar to quickly find a specific product
 const IndexPage: React.FC = () => {
   const { addItem } = useShoppingCart();
   const [currentProduct, setCurrentProduct] = useState<ProductInfo | null>(

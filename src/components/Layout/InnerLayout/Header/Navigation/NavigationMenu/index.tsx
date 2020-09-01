@@ -30,7 +30,7 @@ export const NavigationMenu: React.FC = () => {
   };
 
   return (
-    <div>
+    <>
       <IconButton onClick={handleClick}>
         <MenuImage />
       </IconButton>
@@ -89,6 +89,6 @@ export const NavigationMenu: React.FC = () => {
           Virtual Reality
         </MenuItem>
       </Menu>
-    </div>
+    </>
   );
 };

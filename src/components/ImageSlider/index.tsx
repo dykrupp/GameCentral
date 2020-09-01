@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
-import AwesomeSlider from 'react-awesome-slider';
+import React, { useState, FC, memo } from 'react';
+import AwesomeSlider, {
+  AwesomeSliderInfo,
+  AwesomeSliderStartEventArgs,
+} from 'react-awesome-slider';
+import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import 'react-awesome-slider/dist/styles.css';
 import 'react-awesome-slider/dist/custom-animations/cube-animation.css';
 import sliderStyles from './styles.module.css';
@@ -28,39 +32,46 @@ interface ImageSliderProps {
   setCurrentProduct: (product: ProductInfo) => void;
 }
 
-//TODO -> Use autoplay slider instead?
+export const ImageSlider: FC<ImageSliderProps> = memo(
+  ({ setCurrentProduct }) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const pickedProductInfo = usePickedProductInfo();
 
-export const ImageSlider: React.FC<ImageSliderProps> = ({
-  setCurrentProduct,
-}) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const pickedProductInfo = usePickedProductInfo();
+    const AutoplaySlider = withAutoplay(AwesomeSlider);
 
-  return (
-    <RootContainer>
-      {isLoading && <LoadingSkeleton animation="wave" />}
-      <ImageSliderContainer style={{ display: isLoading ? 'none' : 'block' }}>
-        <AwesomeSlider
-          infinite={true}
-          animation="cubeAnimation"
-          bullets={true}
-          cssModule={sliderStyles}
-          onFirstMount={(e) => {
-            setCurrentProduct(pickedProductInfo[e.currentIndex]);
-            setIsLoading(false);
-          }}
-          onTransitionStart={(e) =>
-            setCurrentProduct(pickedProductInfo[e.nextIndex])
-          }
-        >
-          {pickedProductInfo.map((productInfo) => (
-            <div key={productInfo.sku} data-src={productInfo.fluidObject.src} />
-          ))}
-        </AwesomeSlider>
-      </ImageSliderContainer>
-    </RootContainer>
-  );
-};
+    return (
+      <RootContainer>
+        {isLoading && <LoadingSkeleton animation="wave" />}
+        <ImageSliderContainer style={{ display: isLoading ? 'none' : 'block' }}>
+          <AutoplaySlider
+            play={true}
+            cancelOnInteraction={true} // should stop playing on user interaction
+            interval={15000}
+            timerHeight="4px"
+            timerBackgroundColor="#9A6DEA"
+            cssModule={sliderStyles}
+            onFirstMount={(e: AwesomeSliderInfo) => {
+              setCurrentProduct(pickedProductInfo[e.currentIndex]);
+              setIsLoading(false);
+            }}
+            onTransitionStart={(e: AwesomeSliderStartEventArgs) =>
+              setCurrentProduct(pickedProductInfo[e.nextIndex])
+            }
+          >
+            {pickedProductInfo.map((productInfo) => (
+              <div
+                key={productInfo.sku}
+                data-src={productInfo.fluidObject.src}
+              />
+            ))}
+          </AutoplaySlider>
+        </ImageSliderContainer>
+      </RootContainer>
+    );
+  }
+);
+
+ImageSlider.displayName = 'ImageSlider';
 
 ImageSlider.propTypes = {
   setCurrentProduct: PropTypes.func.isRequired,
