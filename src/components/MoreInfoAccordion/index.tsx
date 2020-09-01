@@ -80,10 +80,12 @@ interface MetacriticInfo {
 
 interface MoreInfoAccordionProps {
   productInfo: ProductInfo | null;
+  setIsPlaying?: (value: boolean) => void;
 }
 
 export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
   productInfo,
+  setIsPlaying,
 }) => {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(true);
@@ -133,7 +135,10 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
 
   if (!productInfo) return null;
   return (
-    <Accordion className={classes.accordion}>
+    <Accordion
+      className={classes.accordion}
+      onClick={() => setIsPlaying && setIsPlaying(false)}
+    >
       <AccordionSummary
         className={classes.summary}
         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -157,6 +162,7 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
 
 MoreInfoAccordion.propTypes = {
   productInfo: PropTypes.any,
+  setIsPlaying: PropTypes.func,
 };
 
 const SkeltonDetails = () => (

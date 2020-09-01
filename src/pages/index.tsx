@@ -45,6 +45,7 @@ const PaperSlider = styled(Paper)`
 //TODO -> Setup netlify deploy hook based on updating products via 'stripe dashboard'
 const IndexPage: React.FC = () => {
   const { addItem } = useShoppingCart();
+  const [isSliderPlaying, setIsSliderPlaying] = useState(true);
   const [currentProduct, setCurrentProduct] = useState<ProductInfo | null>(
     null
   );
@@ -54,11 +55,21 @@ const IndexPage: React.FC = () => {
       <SEO title="GameCentral Home" />
       <HomeTitle variant="h4">Our Top Picks</HomeTitle>
       <PaperSlider elevation={3}>
-        <ImageSlider setCurrentProduct={setCurrentProduct} />
-        <MoreInfoAccordion productInfo={currentProduct} />
+        <ImageSlider
+          setCurrentProduct={setCurrentProduct}
+          isPlaying={isSliderPlaying}
+          setIsPlaying={setIsSliderPlaying}
+        />
+        <MoreInfoAccordion
+          productInfo={currentProduct}
+          setIsPlaying={setIsSliderPlaying}
+        />
         <AddToCartButton
           disabled={currentProduct === null}
-          onClick={() => (currentProduct ? addItem(currentProduct) : null)}
+          onClick={() => {
+            setIsSliderPlaying(false);
+            if (currentProduct) addItem(currentProduct);
+          }}
           color="primary"
           variant="contained"
         >

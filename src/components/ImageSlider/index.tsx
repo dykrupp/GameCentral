@@ -30,22 +30,23 @@ const LoadingSkeleton = styled(Skeleton)`
 
 interface ImageSliderProps {
   setCurrentProduct: (product: ProductInfo) => void;
+  isPlaying: boolean;
+  setIsPlaying: (value: boolean) => void;
 }
 
+const AutoplaySlider = withAutoplay(AwesomeSlider);
+
 export const ImageSlider: FC<ImageSliderProps> = memo(
-  ({ setCurrentProduct }) => {
+  ({ setCurrentProduct, isPlaying, setIsPlaying }) => {
     const [isLoading, setIsLoading] = useState(true);
     const pickedProductInfo = usePickedProductInfo();
-
-    const AutoplaySlider = withAutoplay(AwesomeSlider);
 
     return (
       <RootContainer>
         {isLoading && <LoadingSkeleton animation="wave" />}
         <ImageSliderContainer style={{ display: isLoading ? 'none' : 'block' }}>
           <AutoplaySlider
-            play={true}
-            cancelOnInteraction={true} // should stop playing on user interaction
+            play={isPlaying}
             interval={15000}
             timerHeight="4px"
             timerBackgroundColor="#9A6DEA"
@@ -54,9 +55,12 @@ export const ImageSlider: FC<ImageSliderProps> = memo(
               setCurrentProduct(pickedProductInfo[e.currentIndex]);
               setIsLoading(false);
             }}
-            onTransitionStart={(e: AwesomeSliderStartEventArgs) =>
-              setCurrentProduct(pickedProductInfo[e.nextIndex])
-            }
+            onTransitionStart={(e: AwesomeSliderStartEventArgs) => {
+              setCurrentProduct(pickedProductInfo[e.nextIndex]);
+            }}
+            onTransitionEnd={() => {
+              if (!isPlaying) setIsPlaying(true);
+            }}
           >
             {pickedProductInfo.map((productInfo) => (
               <div
@@ -75,4 +79,6 @@ ImageSlider.displayName = 'ImageSlider';
 
 ImageSlider.propTypes = {
   setCurrentProduct: PropTypes.func.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
+  setIsPlaying: PropTypes.func.isRequired,
 };
