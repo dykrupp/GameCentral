@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { PureImageSlider } from '../ImageSlider/index';
-import { ProductInfo } from '../../utils/interfaces';
+import { PureImageSlider } from '../../src/components/ImageSlider';
+import { ProductInfo } from '../../src/utils/interfaces';
 
 describe('ImageSlider', () => {
   it('renders', () => {
