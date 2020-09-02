@@ -51,7 +51,10 @@ export const PureImageSlider: React.FC<PureImageSliderProps> = ({
   return (
     <RootContainer>
       {isLoading && <LoadingSkeleton animation="wave" />}
-      <ImageSliderContainer style={{ display: isLoading ? 'none' : 'block' }}>
+      <ImageSliderContainer
+        data-testid="image-slider-container"
+        style={{ display: isLoading ? 'none' : 'block' }}
+      >
         <AutoplaySlider
           play={isPlaying}
           interval={15000}
