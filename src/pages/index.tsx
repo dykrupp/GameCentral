@@ -65,6 +65,7 @@ const IndexPage: React.FC = () => {
           setIsPlaying={setIsSliderPlaying}
         />
         <AddToCartButton
+          data-testid="add-to-cart-button"
           disabled={currentProduct === null}
           onClick={() => {
             setIsSliderPlaying(false);

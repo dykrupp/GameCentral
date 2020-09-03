@@ -1,10 +1,13 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+} from '@testing-library/react';
 import * as Gatsby from 'gatsby';
 import IndexPage from '../../src/pages';
 import { data } from './__queryResults__/queryResult';
 
-beforeEach(() => {
+const setupMocks = () => {
   const useStaticQuery = jest.spyOn(Gatsby, 'useStaticQuery');
 
   useStaticQuery.mockImplementationOnce(() => ({
@@ -24,6 +27,10 @@ beforeEach(() => {
       },
     },
   }));
+}
+
+beforeEach(() => {
+ setupMocks();
 });
 
 describe('IndexPage', () => {
@@ -34,10 +41,12 @@ describe('IndexPage', () => {
 
   it('slider displays correct # of topPicks', () => {
     const { getByTestId } = render(<IndexPage />);
+
     const imageSliderEle = getByTestId('image-slider-container').children[0];
     const navEle = Array.from(imageSliderEle.children).filter(
       (x) => x.className === 'awssld__bullets'
     )[0];
+
     expect(navEle.children.length).toBe(5);
   });
 
@@ -65,5 +74,17 @@ describe('IndexPage', () => {
     )[0];
 
     expect(activeTimer).toBeDefined();
+  });
+
+  it('add to cart is clickable when a product is present', () => {
+    const { getByTestId } = render(<IndexPage />);
+
+    const addToCartButton = getByTestId('add-to-cart-button');
+
+    setupMocks();
+
+    expect(addToCartButton).toBeEnabled()
+
+    fireEvent.click(addToCartButton);
   });
 });
