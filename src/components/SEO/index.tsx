@@ -26,6 +26,8 @@ const SEO: React.FC<SEOProps> = ({ description, lang, meta, title }) => {
     `
   );
 
+  if (!site) return null;
+
   const metaDescription = description || site.siteMetadata.description;
 
   return (

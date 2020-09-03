@@ -1,47 +1,27 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-} from '@testing-library/react';
+import { render, fireEvent, within } from '@testing-library/react';
 import * as Gatsby from 'gatsby';
 import IndexPage from '../../src/pages';
 import { data } from './__queryResults__/queryResult';
+import Layout from '../../src/components/Layout';
 
 const setupMocks = () => {
   const useStaticQuery = jest.spyOn(Gatsby, 'useStaticQuery');
-
-  useStaticQuery.mockImplementationOnce(() => ({
-    site: {
-      siteMetadata: {
-        title: 'GameCentral',
-      },
-    },
-  }));
-
-  useStaticQuery.mockImplementationOnce(() => data);
-
-  useStaticQuery.mockImplementationOnce(() => ({
-    site: {
-      siteMetadata: {
-        title: 'GameCentral',
-      },
-    },
-  }));
-}
-
-beforeEach(() => {
- setupMocks();
-});
+  useStaticQuery.mockImplementation(() => data);
+};
 
 describe('IndexPage', () => {
   it('renders', () => {
+    setupMocks();
+
     const { asFragment } = render(<IndexPage />);
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('slider displays correct # of topPicks', () => {
-    const { getByTestId } = render(<IndexPage />);
+  it('displays correct # of topPicks', () => {
+    setupMocks();
 
+    const { getByTestId } = render(<IndexPage />);
     const imageSliderEle = getByTestId('image-slider-container').children[0];
     const navEle = Array.from(imageSliderEle.children).filter(
       (x) => x.className === 'awssld__bullets'
@@ -50,41 +30,36 @@ describe('IndexPage', () => {
     expect(navEle.children.length).toBe(5);
   });
 
-  it('slider autoplays', () => {
-    const { getByTestId } = render(<IndexPage />);
+  it('updates badge content when item is added to cart', () => {
+    const useStaticQuery = jest.spyOn(Gatsby, 'useStaticQuery');
 
-    const imageSliderEle = getByTestId('image-slider-container').children[0];
+    useStaticQuery.mockImplementationOnce(() => ({
+      site: {
+        siteMetadata: {
+          title: 'GameCentral',
+        },
+      },
+    }));
 
-    const wrapperEle = Array.from(imageSliderEle.children).filter(
-      (x) => x.className === 'awssld__wrapper'
-    )[0];
+    useStaticQuery.mockImplementation(() => data);
 
-    const divChildren = Array.from(
-      Array.from(wrapperEle.children).filter(
-        (x) => x.className === 'awssld__container'
-      )[0].children
+    const { getByTestId } = render(
+      <Layout location="test-location">
+        <IndexPage />
+      </Layout>
     );
 
-    const activeContentDiv = Array.from(divChildren).filter((x) =>
-      x.classList.contains('awssld--active')
-    )[0].children[0];
-
-    const activeTimer = Array.from(activeContentDiv.children).filter((x) =>
-      x.classList.contains('awssld__timer')
-    )[0];
-
-    expect(activeTimer).toBeDefined();
-  });
-
-  it('add to cart is clickable when a product is present', () => {
-    const { getByTestId } = render(<IndexPage />);
-
     const addToCartButton = getByTestId('add-to-cart-button');
+    const { getByText } = within(getByTestId('cart-badge'));
+
+    expect(getByText('0')).toBeInTheDocument();
 
     setupMocks();
 
-    expect(addToCartButton).toBeEnabled()
+    expect(addToCartButton).toBeEnabled();
 
     fireEvent.click(addToCartButton);
+
+    expect(getByText('1')).toBeInTheDocument();
   });
 });
