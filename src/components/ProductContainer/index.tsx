@@ -12,6 +12,8 @@ const Container = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 1rem 0 1rem 0;
+  margin-left: 5px;
+  margin-right: 5px;
 `;
 
 const NotFoundHeading = styled(Typography)`
