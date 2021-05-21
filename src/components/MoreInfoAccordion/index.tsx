@@ -116,9 +116,7 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
       .then((response) => response.json())
       .then((data) => {
         if (didCancel) return;
-
-        if (data.result !== 'No result')
-          setMetaCriticInfo(data.result as MetacriticInfo);
+        else if (data && data.result && data.result !== 'No result') setMetaCriticInfo(data.result as MetacriticInfo);
         else setMetaCriticInfo(null);
       })
       .catch((err) => {
@@ -140,6 +138,7 @@ export const MoreInfoAccordion: React.FC<MoreInfoAccordionProps> = ({
       onClick={() => setIsPlaying && setIsPlaying(false)}
     >
       <AccordionSummary
+        style={{ display: 'flex'}}
         className={classes.summary}
         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
       >
